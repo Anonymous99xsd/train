@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/91f817937f.js" crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            height: 60px;
+            background-color: #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .head-logo {
+            margin-left: 100px;
+        }
+
+        .head-nav {
+            margin-right: 100px;
+        }
+
+        .head-nav>a {
+            cursor: pointer;
+            color: #000;
+            text-decoration: none;
+            padding: 0 10px;
+        }
+
+        @media screen and (max-width: 760px) {
+            .head-nav {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width: 440px) {
+            .head-logo {
+                margin-left: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="head-logo">
+            <i class="fab fa-accusoft"></i>
+            <span>复仇者联盟</span>
+        </div>
+        <div class="head-nav">
+            <a href="./index.html" target="_parent">首页</a>
+            <a href="./news.html" target="_parent">新闻</a>
+            <a href="./about.html" target="_parent">关于我们</a>
+        </div>
+    </div>
+</body>
+
+</html>

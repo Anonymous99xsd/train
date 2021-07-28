@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- React -->
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/react-router-dom/6.0.0-beta.0/react-router-dom.development.js"></script>
+    <!-- babel -->
+    <script src="node_modules/@babel/polyfill/dist/polyfill.min.js"></script>
+    <!-- axios -->
+    <script src="node_modules/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script type="text/babel">
+        const { useState } = window.React
+        console.log(window.ReactRouterDOM);
+        const { BrowserRouter, Link } = window.ReactRouterDOM
+    
+        function App() {
+            // 图片数据
+            const [data, setData] = useState([])
+            // 加载页数
+            const [count, setCount] = useState(1)
+            // 控制能否加载
+            const [hasMore, setHasMore] = useState(true)
+            // 存储当前页面路径
+            const [path] = useState(window.location.pathname)
+
+            // useEffect(() => {
+            //   loadMoreData()
+            // }, [])  // eslint-disable-line react-hooks/exhaustive-deps
+
+            function loadMoreData() {
+                if (count >= 10) {
+                console.log('没数据了');
+                setHasMore(false)
+                return false
+                }
+
+                axios.get(`https://api.github.com/search/repositories?q=stars:%3E1&sort=stars&order=desc&type=Repositories&page=${count}`)
+                .then(response => {
+                console.log(response.data.items);
+                setData([...data, ...response.data.items])
+                setCount(count + 1)
+                })
+                .catch(error => {
+                console.log(error);
+                })
+            }
+
+            function Item () {
+                return (
+                data.map((item, index) => {
+                    return (
+                    <div key={item.id} style={{width:'22%', display:'flex', flexDirection:'column', alignItems:'center', backgroundColor:'#eee', margin:'10px auto'}}>
+                        <h2>#{index + 1}</h2>
+                        <img style={{display:'block', width:'160px', height:'160px'}} src={item.owner.avatar_url} alt="" />
+                        <h4 style={{color:'red'}}>{item.name}</h4>
+                        <div style={{width:'100%', textAlign:'left', marginBottom:'20px'}}>
+                        <dd style={{marginLeft:'40px', maxWidth:'80%', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>
+                            <i style={{marginRight:'10px'}} className="fas fa-address-card"></i>
+                            {item.name}
+                        </dd>
+                        <dd style={{marginLeft:'40px'}}>
+                            <i style={{marginRight:'10px'}} className="fas fa-star"></i>
+                            {item.size} stars
+                        </dd>
+                        <dd style={{marginLeft:'42px'}}>
+                            <i style={{marginRight:'14px'}} className="fas fa-code-branch"></i>
+                            {item.forks} forks
+                        </dd>
+                        <dd style={{marginLeft:'42px'}}>
+                            <i style={{marginRight:'14px'}} className="fas fa-code-branch"></i>
+                            {item.open_issues} open issues
+                        </dd>
+                        </div>
+                    </div>
+                    )
+                })
+                )
+            }
+
+            // 导航栏
+            function Nav() {
+                return (
+                <div>
+                    <ul style={{display:'flex', listStyle:'none'}}>
+                    <li style={{margin:'0 20px', cursor:'pointer', fontSize:'18px', fontWeight:700}}>
+                        <a style={{textDecoration:'none', color:path === '/' ? 'red' : '#000'}} href="/">Popular</a>
+                    </li>
+                    <li style={{cursor:'pointer', fontSize:'18px', fontWeight:700}}>
+                        <a style={{textDecoration:'none', color:path === '/battle' ? 'red' : '#000'}} href="/battle">Battle</a>
+                    </li>
+                    </ul>
+                </div>
+                )
+            }
+
+            // Popular
+            function Popular() {
+                return (
+                <div style={{width:'80%', display:'flex', justifyContent:'space-around', flexWrap:'wrap', margin:'0 auto'}}>
+                    <Item />
+                </div>
+                )
+            }
+
+            // Battle
+            function Battle() {
+                return (
+                <div style={{width:'80%', display:'flex', flexDirection:'column', alignItems:'center', margin:'0 auto'}}>
+                    <h2>Instructions</h2>
+                    <div style={{width:'80%', display:'flex', justifyContent:'space-between'}}>
+                    <div>
+                        <h3 style={{textAlign:'center'}}>Enter two Github users</h3>
+                        <i style={{color:'orange', width:'200px', height:'200px', backgroundColor:'#eee', display:'flex', justifyContent:'center', alignItems:'center'}} class="fas fa-users fa-8x">
+                        <img src="" alt="" />
+                        </i>
+                    </div>
+                    <div>
+                        <h3 style={{textAlign:'center'}}>Battle</h3>
+                        <i style={{color:'#666', width:'200px', height:'200px', backgroundColor:'#eee', display:'flex', justifyContent:'center', alignItems:'center'}} class="fas fa-fighter-jet fa-8x">
+                        <img src="" alt="" />
+                        </i>
+                    </div>
+                    <div>
+                        <h3 style={{textAlign:'center'}}>See the winner</h3>
+                        <i style={{color:'yellow', width:'200px', height:'200px', backgroundColor:'#eee', display:'flex', justifyContent:'center', alignItems:'center'}} class="fas fa-trophy fa-8x">
+                        <img src="" alt="" />
+                        </i>
+                    </div>
+                    </div>
+                    <h2 style={{marginTop:'100px'}}>Players</h2>
+                    <div style={{width:'100%', display:'flex', justifyContent:'space-between'}}>
+                    <div>
+                        <h3>Player One</h3>
+                        <input type="text" />
+                    </div>
+                    <div>
+                        <h3>Player Two</h3>
+                        <input type="text" />
+                    </div>
+                    </div>
+                </div>
+                )
+            }
+
+            return (
+                <div className="App">
+                <BrowserRouter>
+                    <InfinityScroll pageStart={0} loadMore={() => {loadMoreData()}} hasMore={hasMore}>
+                        <h2 style={{textAlign:'center'}}>GitHub Popular Item</h2>
+                        <Nav />
+                        <Route path="/" exact component={Popular} />
+                    </InfinityScroll>
+                    <Route path="/battle" component={Battle} />
+                </BrowserRouter>
+                </div>
+            );
+        }
+        ReactDOM.render(<App />, document.getElementById('app'))
+    </script>
+</body>
+
+</html>
