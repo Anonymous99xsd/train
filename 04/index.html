@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>弹幕墙</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <style>
+        /* * {
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+        } */
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 1000px;
+            height: 600px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 100px;
+            position: relative;
+            text-align: center;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        input[type="text"] {
+            margin-top: 50px;
+            width: 200px;
+            height: 20px;
+            font-size: 16px;
+            padding: 0 6px;
+        }
+
+        .control {
+            margin-top: 20px;
+        }
+
+        .control button {
+            width: 100px;
+            height: 30px;
+            border-radius: 4px;
+            outline: none;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        .launch {
+            border: 1px solid rgb(255, 90, 90);
+        }
+
+        .clear {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container"></div>
+    <div>
+        <input value="我是一条弹幕" type="text">
+    </div>
+
+    <div class="control">
+        <button onclick="launchHandle()" class="launch">发射</button>
+        <button onclick="clearBoth()" class="clear">清屏</button>
+    </div>
+</body>
+
+<script>
+    let id = 0
+
+    // 添加弹幕
+    function launchHandle() {
+        let timer = null
+        let value = $('input[type="text"]').val()
+        let redcolrd = Math.random() * 256 | 0,
+            greencolrd = Math.random() * 256 | 0,
+            bluecolrd = Math.random() * 256 | 0,
+            sizerd = Math.random() * 32 + 16 | 0,
+            yrd = Math.random(),
+            leftX = 0
+
+        $('.container').append(`<span style="position: absolute;white-space: nowrap" id=${id}>${value}</span>`)
+
+        let span = $(`#${id}`)
+        span.css("color", `rgb(${redcolrd}, ${greencolrd}, ${bluecolrd})`)
+            .css('font-size', `${sizerd}px`)
+
+        let containerHeight = $('.container').height(),
+            containerWidth = $('.container').width()
+        let spanHeight = span.height(),
+            spanWidth = span.width()
+
+        if ((1 - yrd) * containerHeight < spanHeight) {
+            span.css('top', `calc(${yrd * 100}% - ${spanHeight}px)`)
+        } else {
+            span.css('top', `${yrd * 100}%`)
+        }
+
+        span.css('left', `calc(100% - ${leftX}%)`)
+        requestAnimationFrame(function raf() {
+            span.css('left', `calc(100% - ${leftX}%)`)
+            leftX += .3
+            if (leftX < 100 + spanWidth / containerWidth * 100) requestAnimationFrame(raf)
+            else span.remove()
+        })
+
+        // if ((1 - xrd) * containerWidth < spanWidth) {
+        //     span.css('left', `calc(${xrd * 100}% - ${spanWidth}px)`)
+        //     if ((1 - yrd) * containerHeight < spanHeight) {
+        //         span.css('top', `calc(${yrd * 100}% - ${spanHeight}px)`)
+        //     } else {
+        //         span.css('top', `${yrd * 100}%`)
+        //     }
+        // } else {
+        //     span.css('left', `${xrd * 100}%`)
+        //     if ((1 - yrd) * containerHeight < spanHeight) {
+        //         span.css('top', `calc(${yrd * 100}% - ${spanHeight}px)`)
+        //     } else {
+        //         span.css('top', `${yrd * 100}%`)
+        //     }
+        // }
+
+        id++
+    }
+
+    // 清楚弹幕墙
+    function clearBoth() {
+        $('.container').empty()
+    }
+</script>
+
+</html>

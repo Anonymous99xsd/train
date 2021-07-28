@@ -19,30 +19,113 @@
 
     <script type="text/babel">
         function App() {
+            const { useState, useRef, useEffect } = window.React
+
+            // 存放数组
+            const [box, setBox] = useState(Array.from(new Array(3), () => new Array(3).fill(null)))
+            // 输入字符
+            const [input, setInput] = useState(true)
+            // 填入次数
+            const [num, setNum] = useState(1)
+            // 结果
+            const [res, setRes] = useState(null)
+            // 记录历史
+            const [history, setHistory] = useState([JSON.parse(JSON.stringify(box))])
+            const listRef = useRef()
+
+            // useEffect(() => {
+            //     setHistory())
+            // }, [])
+
+            // 点击事件
+            function clickHandle(e) {
+                // 填入字符，更新数组
+                if (res !== null || e.target.innerHTML !== '') return
+                // 判断回溯
+
+
+                let xo = input ? 'X' : 'O'
+                e.target.innerHTML = xo
+                let arr = box
+                let value = e.target.getAttribute('value')
+                arr[value / 3 | 0][value % 3] = xo
+                setBox(arr)
+                setInput(!input)
+                if (history.length > num) {
+                    console.log(history.length, num);
+                    let tempArr = JSON.parse(JSON.stringify(history))
+                    tempArr.splice(num, Infinity)
+                    setHistory(tempArr)
+                } else {
+                    setHistory([...history, JSON.parse(JSON.stringify(box))])
+                }
+
+                // 判断输赢
+                setRes(judgeIsWin())
+
+                // 添加记录
+                let btn = document.createElement('button')
+                btn.addEventListener('click', () => backtrack(num))
+                btn.innerHTML = `${num + 1}. GO to move #${num}`
+                listRef.current.appendChild(btn)
+                setNum(num + 1)
+            }
+
+            // 回溯
+            function backtrack(index) {
+                setBox(history[index])
+                let tds = document.getElementsByTagName('td')
+                let count = 0
+                console.log(history);
+                for (let i = 0; i < 3; i++) {
+                    for (let j = 0; j < 3; j++) {
+                        tds[count].innerHTML = history[index][i][j]
+                        count++
+                    }
+                }
+                setNum(index + 1)
+                setInput(index % 2 === 1 ? true : false)
+            }
+
+            // 判断输赢
+            function judgeIsWin() {
+                let isWin = null
+                for (let i = 0; i < 3; i++) {
+                    if ((box[i][0] === box[i][1] && box[i][1] === box[i][2]) || (box[0][i] === box[1][i] && box[1][i] === box[2][i])) isWin = box[i][i]
+                }
+                if (!isWin) {
+                    if ((box[0][0] === box[1][1] && box[1][1] === box[2][2]) || (box[0][2] === box[1][1] && box[1][1] === box[2][0])) isWin = box[1][1]
+                }
+                return isWin
+            }
+
             return (
                 <div className="container">
                     <div className="well">
                         <table border= "1px solid #333" cellSpacing="0" cellPadding="0" className="lattice">
-                            <tbody>
+                            <tbody onClick={(e) => clickHandle(e)}>
                                 <tr>
-                                    <td>X</td>
-                                    <td>O</td>
-                                    <td></td>
+                                    <td value={0}></td>
+                                    <td value={1}></td>
+                                    <td value={2}></td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td value={3}></td>
+                                    <td value={4}></td>
+                                    <td value={5}></td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td value={6}></td>
+                                    <td value={7}></td>
+                                    <td value={8}></td>
                                 </tr></tbody>
                         </table>
                     </div>
-                    <div class="detailed">
-                        <h2></h2>
+                    <div className="detailed">
+                        <h2>{res === null ? `Next Player: ${input ? 'X' : 'O'}` : `Winner: ${res}`}</h2>
+                        <div ref={listRef} className="list">
+                            <button onClick={() => backtrack(0)}>1. Go to game start</button>
+                        </div>
                     </div>
                 </div>
             )

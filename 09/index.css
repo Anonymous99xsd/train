@@ -2,21 +2,30 @@ body {
     margin: 0;
 }
 
-.container {
-    width: 800px;
-    min-height: 100vh;
-    background-color: #eee;
-    margin: 0 auto;
-    display: flex;
+button {
+    height: 30px;
+    font-size: 22px;
+    display: block;
+    margin: 10px 0;
+    cursor: pointer;
 }
 
-.well {
-    width: 100%;
+h2 {
+    margin: 0;
+}
+
+#app {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    width: 800px;
+    height: 500px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-evenly;
-    align-items: center;
-    height: 100%;
-    margin-top: 200px;
 }
 
 .lattice {

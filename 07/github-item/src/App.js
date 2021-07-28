@@ -39,7 +39,7 @@ function App() {
     return (
       data.map((item, index) => {
         return (
-          <div key={item.id} style={{width:'22%', display:'flex', flexDirection:'column', alignItems:'center', backgroundColor:'#eee', margin:'10px auto'}}>
+          <div className="items" key={item.id} style={{width:'22%', display:'flex', flexDirection:'column', alignItems:'center', backgroundColor:'#eee', margin:'10px auto'}}>
             <h2>#{index + 1}</h2>
             <img style={{display:'block', width:'160px', height:'160px'}} src={item.owner.avatar_url} alt="" />
             <h4 style={{color:'red'}}>{item.name}</h4>
