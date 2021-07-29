@@ -41,8 +41,6 @@
             function clickHandle(e) {
                 // 填入字符，更新数组
                 if (res !== null || e.target.innerHTML !== '') return
-                // 判断回溯
-
 
                 let xo = input ? 'X' : 'O'
                 e.target.innerHTML = xo
@@ -51,11 +49,13 @@
                 arr[value / 3 | 0][value % 3] = xo
                 setBox(arr)
                 setInput(!input)
+                // 判断回溯
                 if (history.length > num) {
                     console.log(history.length, num);
                     let tempArr = JSON.parse(JSON.stringify(history))
                     tempArr.splice(num, Infinity)
                     setHistory(tempArr)
+                    // 清除之后的历史
                 } else {
                     setHistory([...history, JSON.parse(JSON.stringify(box))])
                 }
@@ -85,11 +85,13 @@
                 }
                 setNum(index + 1)
                 setInput(index % 2 === 1 ? true : false)
+                setRes(null)
             }
 
             // 判断输赢
             function judgeIsWin() {
                 let isWin = null
+                console.log(box[0][0], box[1][0], box[2][0]);
                 for (let i = 0; i < 3; i++) {
                     if ((box[i][0] === box[i][1] && box[i][1] === box[i][2]) || (box[0][i] === box[1][i] && box[1][i] === box[2][i])) isWin = box[i][i]
                 }
