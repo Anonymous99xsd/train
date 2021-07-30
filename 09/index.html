@@ -8,10 +8,11 @@
     <title>井字棋</title>
     <link rel="stylesheet" href="index.css">
     <!-- React -->
-    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <!-- babel -->
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <!-- jquery -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
 </head>
 
 <body>
@@ -31,6 +32,8 @@
             const [res, setRes] = useState(null)
             // 记录历史
             const [history, setHistory] = useState([JSON.parse(JSON.stringify(box))])
+            // 总记录数
+            const [lis, setLis] = useState(new Array(9).fill(false))
             const listRef = useRef()
 
             // useEffect(() => {
@@ -44,39 +47,44 @@
 
                 let xo = input ? 'X' : 'O'
                 e.target.innerHTML = xo
-                let arr = box
+                let arr = JSON.parse(JSON.stringify(box))
                 let value = e.target.getAttribute('value')
                 arr[value / 3 | 0][value % 3] = xo
                 setBox(arr)
                 setInput(!input)
+
                 // 判断回溯
+                console.log(history.length, num);
                 if (history.length > num) {
-                    console.log(history.length, num);
                     let tempArr = JSON.parse(JSON.stringify(history))
-                    tempArr.splice(num, Infinity)
+                    tempArr.splice(num, Infinity, arr)
                     setHistory(tempArr)
                     // 清除之后的历史
+                    let templis = lis
+                    for (let i = num - 1; i < 9; i++) {
+                        templis[i] = false
+                    }
+                    setLis(templis)
                 } else {
-                    setHistory([...history, JSON.parse(JSON.stringify(box))])
+                    setHistory([...history, arr])
                 }
 
                 // 判断输赢
-                setRes(judgeIsWin())
+                setRes(judgeIsWin(arr))
 
                 // 添加记录
-                let btn = document.createElement('button')
-                btn.addEventListener('click', () => backtrack(num))
-                btn.innerHTML = `${num + 1}. GO to move #${num}`
-                listRef.current.appendChild(btn)
+                let templis = lis
+                templis[num - 1] = true
+                setLis(templis)
                 setNum(num + 1)
             }
 
             // 回溯
             function backtrack(index) {
+                if (history.length - 1 === index) return
                 setBox(history[index])
                 let tds = document.getElementsByTagName('td')
                 let count = 0
-                console.log(history);
                 for (let i = 0; i < 3; i++) {
                     for (let j = 0; j < 3; j++) {
                         tds[count].innerHTML = history[index][i][j]
@@ -84,21 +92,34 @@
                     }
                 }
                 setNum(index + 1)
-                setInput(index % 2 === 1 ? true : false)
+                setInput(index % 2 === 0 ? true : false)
                 setRes(null)
             }
 
             // 判断输赢
-            function judgeIsWin() {
+            function judgeIsWin(arr) {
                 let isWin = null
-                console.log(box[0][0], box[1][0], box[2][0]);
                 for (let i = 0; i < 3; i++) {
-                    if ((box[i][0] === box[i][1] && box[i][1] === box[i][2]) || (box[0][i] === box[1][i] && box[1][i] === box[2][i])) isWin = box[i][i]
+                    if ((arr[i][0] === arr[i][1] && arr[i][1] === arr[i][2] && arr[i][0] !== null) || (arr[0][i] === arr[1][i] && arr[1][i] === arr[2][i] && arr[0][i] !== null)) {
+                        isWin = arr[i][i]
+                        break
+                    }
                 }
                 if (!isWin) {
-                    if ((box[0][0] === box[1][1] && box[1][1] === box[2][2]) || (box[0][2] === box[1][1] && box[1][1] === box[2][0])) isWin = box[1][1]
+                    if (arr[1][1] !== null && (arr[0][0] === arr[1][1] && arr[1][1] === arr[2][2]) || (arr[0][2] === arr[1][1] && arr[1][1] === arr[2][0])) isWin = arr[1][1]
                 }
                 return isWin
+            }
+
+            // 加载记录
+            function Items() {
+                return (
+                    lis.map((v, i) => {
+                        return (
+                            <button style={{display:v ? 'block' : 'none'}} onClick={() => {backtrack(i + 1)}} key={i}>{i + 2}. GO to move #{i + 1}</button>
+                        )
+                    })
+                )
             }
 
             return (
@@ -127,6 +148,7 @@
                         <h2>{res === null ? `Next Player: ${input ? 'X' : 'O'}` : `Winner: ${res}`}</h2>
                         <div ref={listRef} className="list">
                             <button onClick={() => backtrack(0)}>1. Go to game start</button>
+                            <Items />
                         </div>
                     </div>
                 </div>
