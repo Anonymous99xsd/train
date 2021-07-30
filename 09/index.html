@@ -54,7 +54,6 @@
                 setInput(!input)
 
                 // 判断回溯
-                console.log(history.length, num);
                 if (history.length > num) {
                     let tempArr = JSON.parse(JSON.stringify(history))
                     tempArr.splice(num, Infinity, arr)
