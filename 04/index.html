@@ -8,17 +8,6 @@
     <title>弹幕墙</title>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
     <style>
-        /* * {
-            padding: 0;
-            margin: 0;
-        }
-
-        html,
-        body {
-            height: 100%;
-            width: 100%;
-        } */
-
         body {
             display: flex;
             flex-direction: column;
@@ -37,14 +26,14 @@
             text-align: center;
             display: inline-block;
             overflow: hidden;
-            background-color: #333;
+            background-color: #999;
         }
 
         input[type="text"] {
             margin-top: 50px;
             width: 200px;
-            height: 20px;
-            font-size: 16px;
+            height: 30px;
+            font-size: 20px;
             padding: 0 6px;
         }
 
@@ -72,6 +61,7 @@
         .launch:hover,
         .clear:hover {
             background-color: #eee;
+            box-shadow: 0 0 4px rgba(0, 0, 0, .2);
         }
 
         .launch:active,
@@ -98,6 +88,7 @@
 
     // 添加弹幕
     function launchHandle() {
+        if ($('input[type="text"]').val().trim() === '') return
         let timer = null
         let value = $('input[type="text"]').val()
         let redcolrd = Math.random() * 256 | 0,

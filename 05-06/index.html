@@ -161,6 +161,10 @@
             .iframeFooter {
                 height: 564px;
             }
+
+            .team-content>div>img {
+                height: 40vw;
+            }
         }
 
         @media screen and (max-width: 440px) {
@@ -173,12 +177,21 @@
                 align-items: center;
             }
 
+            .team-content>div>img {
+                height: auto;
+            }
+
             .team-content>div:nth-child(2) {
                 flex-direction: column-reverse;
             }
 
             .team-content>div>div>p {
                 display: block;
+            }
+
+            .news-content>div>img,
+            .team-content>div>img {
+                width: 100%;
             }
 
             .iframeFooter {
