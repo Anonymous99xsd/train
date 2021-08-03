@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './index.css'
 import { Menu, Dropdown } from 'antd'
 import 'antd/dist/antd.css';
 import Items from '../Items/index'
 
-function Shelf() {
+function Shelf(props) {
     // 下拉组件
     const menu = (
         <Menu>
@@ -15,6 +15,12 @@ function Shelf() {
             <Menu.Item key="2">价格从高到低</Menu.Item>
         </Menu>
     )
+    const { dispatch } = props
+    useEffect(() => {
+        dispatch({
+            type: 
+        })
+    }, [])
 
     return (
         <div className="container">

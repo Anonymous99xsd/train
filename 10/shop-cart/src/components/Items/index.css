@@ -38,8 +38,10 @@
 
 .item-name {
     position: relative;
+    margin: 16px 0;
     padding: 0 20px;
     height: 45px;
+    font-size: 16px;
 }
 
 .item-name::before {
@@ -74,6 +76,7 @@
     margin-top: 10px;
     cursor: pointer;
     transition: background-color .15s ease-in-out;
+    font-size: 16px;
 }
 
 .item:hover .item-btn {
