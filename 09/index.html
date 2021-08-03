@@ -80,7 +80,6 @@
 
             // 回溯
             function backtrack(index) {
-                if (history.length - 1 === index) return
                 setBox(history[index])
                 let tds = document.getElementsByTagName('td')
                 let count = 0
@@ -92,7 +91,8 @@
                 }
                 setNum(index + 1)
                 setInput(index % 2 === 0 ? true : false)
-                setRes(null)
+                // 判断输赢
+                setRes(judgeIsWin(history[index]))
             }
 
             // 判断输赢
