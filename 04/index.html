@@ -123,21 +123,8 @@
             else span.remove()
         })
 
-        // if ((1 - xrd) * containerWidth < spanWidth) {
-        //     span.css('left', `calc(${xrd * 100}% - ${spanWidth}px)`)
-        //     if ((1 - yrd) * containerHeight < spanHeight) {
-        //         span.css('top', `calc(${yrd * 100}% - ${spanHeight}px)`)
-        //     } else {
-        //         span.css('top', `${yrd * 100}%`)
-        //     }
-        // } else {
-        //     span.css('left', `${xrd * 100}%`)
-        //     if ((1 - yrd) * containerHeight < spanHeight) {
-        //         span.css('top', `calc(${yrd * 100}% - ${spanHeight}px)`)
-        //     } else {
-        //         span.css('top', `${yrd * 100}%`)
-        //     }
-        // }
+        $('input[type="text"]')[0].value = ''
+        $('input[type="text"]').focus()
 
         id++
     }
@@ -145,6 +132,7 @@
     // 清楚弹幕墙
     function clearBoth() {
         $('.container').empty()
+        $('input[type="text"]')[0].value = ''
     }
 </script>
 

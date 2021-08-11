@@ -19,6 +19,8 @@
             width: 100% !important;
             min-height: 100vh;
             padding: 0 !important;
+            display: flex;
+            flex-direction: column;
         }
 
         .main {
@@ -27,6 +29,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            flex: 1;
         }
 
         .title {
@@ -56,20 +59,33 @@
         }
 
         .list {
-            max-width: 83.3%;
-            margin-top: 15px;
+            width: 83.3%;
+            margin-top: 20px;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: repeat(4, 1fr);
-            grid-row-gap: 15px;
+            grid-row-gap: 30px;
             grid-column-gap: 30px;
             align-items: center;
+        }
+
+        .list img {
+            width: 200px;
+            height: 100%;
+            object-fit: cover;
         }
 
         .item {
             align-self: center;
             display: flex;
             cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .item:hover {
+            border: 1px solid #eee;
+            transform: scale(1.05);
+            box-shadow: 0 0 4px rgba(0, 0, 0, .2);
         }
 
         .artical {
@@ -77,8 +93,11 @@
         }
 
         .artical>h4 {
-            display: inline-block;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
             margin: 10px 0;
+            overflow: hidden;
         }
 
         .artical>p:nth-of-type(1) {
@@ -117,7 +136,7 @@
 
         @media screen and (max-width: 740px) {
             .iframeFooter {
-                height: 564px;
+                height: 545px;
             }
         }
 
@@ -133,19 +152,35 @@
 
             .item {
                 align-items: center;
+                padding-top: 20px;
+                border: 1px solid #eee;
+                border-radius: 4px;
             }
 
+            .title>span:nth-child(2),
             .title>span:nth-child(3) {
-                display: none;
+                font-size: 14px;
             }
 
-            .title>span:nth-child(2) {
-                display: block;
+            .list img {
+                width: 94%;
             }
+        }
 
-            .iframeFooter {
-                height: 886px;
-            }
+        .dropdown-item {
+            color: #333;
+            font-size: 14px;
+            text-align: center;
+            padding: 5px 0;
+        }
+
+        .dropdown-item:hover {
+            color: #000;
+            background-color: #eee;
+        }
+
+        .active {
+            background-color: #eee;
         }
     </style>
 </head>
@@ -158,10 +193,11 @@
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                 data-toggle="dropdown" aria-expanded="false">导航</button>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                <a style="display: block;text-align: right;" class="dropdown-item" href="./index.html">首页</a>
-                <a style="display: block;text-align: right;" class="dropdown-item" href="./news.html">新闻</a>
-                <a style="display: block;text-align: right;" class="dropdown-item" href="./about.html">关于我们</a>
+            <div style="min-width: 100px;" class="dropdown-menu dropdown-menu-right"
+                aria-labelledby="dropdownMenuButton">
+                <a style="display: block;" class="dropdown-item" href="./index.html">首页</a>
+                <a style="display: block;" class="dropdown-item" href="./news.html">新闻</a>
+                <a style="display: block;" class="dropdown-item" href="./about.html">关于我们</a>
             </div>
         </div>
         <!-- 标题 -->
@@ -178,12 +214,12 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li>
-                        <a onclick="prePage(indexPage)" href="javascript:;" aria-label="Previous">
+                        <a id="leftcss" onclick="prePage(indexPage)" href="javascript:;" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <li id="right">
-                        <a onclick="nextPage(indexPage)" href="javascript:;" aria-label="Next">
+                        <a id="rightcss" onclick="nextPage(indexPage)" href="javascript:;" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -191,11 +227,31 @@
             </nav>
         </main>
         <!-- 尾部 -->
-        <iframe class="iframeFooter" style="margin-top: 15px;margin-bottom: -5px;" src="footer.html" scrolling="no" frameborder="0"
-            height="363px" width="100%"></iframe>
+        <iframe class="iframeFooter" style="margin-top: 15px;margin-bottom: -5px;" src="footer.html" scrolling="no"
+            frameborder="0" height="363px" width="100%"></iframe>
     </div>
 
-    
+    <script>
+        function toChild() {
+            return window.location.href
+        }
+
+        let goto = document.querySelectorAll('.dropdown-item')
+        if (window.location.href.includes('index')) {
+            goto[0].classList.add('active')
+            goto[1].classList.remove('active')
+            goto[2].classList.remove('active')
+        } else if (window.location.href.includes('news')) {
+            goto[0].classList.remove('active')
+            goto[1].classList.add('active')
+            goto[2].classList.remove('active')
+        } else if (window.location.href.includes('about')) {
+            goto[0].classList.remove('active')
+            goto[1].classList.remove('active')
+            goto[2].classList.add('active')
+        }
+    </script>
+
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
         integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
@@ -209,26 +265,35 @@
     var data = [],
         indexPage = 0,
         pages = null
+    // 添加分页列表
+    for (let i = 0; i < 3; i++) {
+        $('#right').before(
+            `<li class="act ${i === 0 ? 'active' : ''}"><a onclick="getData(${i})" href="javascript:;">${i + 1}</a></li>`
+        )
+    }
     // 获取数据
-    fetch('https://api.github.com/search/repositories?q=stars:3E1&sort=stars&order=desc&type=Repositories', )
-        .then(response => {
-            return response.json()
-        })
-        .then(json => {
-            data = json.items
-            pages = Math.round(data.length / 8)
-            for (let i = 0; i < pages; i++) {
-                $('#right').before(`<li><a onclick="changePage(${i})" href="javascript:;">${i + 1}</a></li>`)
-            }
-            changePage(0)
-        })
-        .catch(error => {
-            console.log(error.message);
-        })
+    function getData(page) {
+        fetch(
+                `https://www.mxnzp.com/api/news/list?typeId=509&page=${page + 1}&app_id=emfjlekgxchngglp&app_secret=NStsd016Q0dtdEJMclpUbytualF5Zz09`
+                )
+            .then(response => {
+                return response.json()
+            })
+            .then(json => {
+                data = json.data
+                console.log(data);
+                changePage(page)
+            })
+            .catch(error => {
+                console.log(error.message);
+            })
+    }
+    getData(0)
 
     // 跳转
-    function gotoNews() {
-        window.location.href = 'news-detail.html'
+    function gotoNews(index) {
+        console.log(data[index]);
+        window.location.href = `news-detail.html?${data[index].newsId}`
     }
 
     // 前进&后退
@@ -249,17 +314,15 @@
     // 换页
     function changePage(index) {
         let items = ''
-        for (let i = index * 8; i < 8 * (index + 1); i++) {
-            if (!data[i]) {
-                items += '<h3 style="color: #666">暂无更多数据...</h3>'
-                break
-            }
+        for (let i = 0; i < 8; i++) {
             items += `
-                    <div onclick="gotoNews()" class="item">
-                        <img style="width:40%;min-width:100px" data-src="${data[i].owner.avatar_url}" src="" alt="">
+                    <div onclick="gotoNews(${i})" class="item">
+                        <div style="width:200px;height:140px">
+                            <img data-src="${data[i]?.imgList && data[i].imgList[0] !== 'null' ? data[i].imgList[0] : './assets/news1.jpg'}" src="" alt="图片获取失败">
+                        </div>
                         <div class="artical">
-                            <h4>情不知所起，一往而深</h4>
-                            <p>忍将夙愿，付诸东流</p>
+                            <h4>${data[i].title}</h4>
+                            <p>${data[i].source}</p>
                             <p>一篇读罢头飞雪，六朝何事，只成门户私计。</p>
                         </div>
                     </div>
@@ -270,12 +333,21 @@
         $('.list').append(items)
         indexPage = index
 
+        // 分页按钮选中样式
+        $(`.act:nth-child(${index + 2})`).addClass('active').siblings().removeClass('active')
+        if (index === 0) $('#leftcss').css('cursor', 'not-allowed')
+        else $('#leftcss').css('cursor', 'pointer')
+        if (index === pages - 1) $('#rightcss').css('cursor', 'not-allowed')
+        else $('#rightcss').css('cursor', 'pointer')
+
         // 图片懒加载
         let io = new IntersectionObserver(entries => {
             entries.forEach((v, i) => {
                 if (v.isIntersecting) {
-                    v.target.src = v.target.getAttribute('data-src')
-                    io.unobserve(v.target)
+                    if (v.target.getAttribute('data-src') !== 'null') {
+                        v.target.src = v.target.getAttribute('data-src')
+                        io.unobserve(v.target)
+                    }
                 }
             })
         })

@@ -14,8 +14,10 @@
 
         .container {
             width: 100% !important;
-            min-height: 100vh;
             padding: 0 !important;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .main {
@@ -24,6 +26,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            flex: 1;
         }
 
         .title {
@@ -69,7 +72,7 @@
 
         @media screen and (max-width:740px) {
             .iframeFooter {
-                height: 564px;
+                height: 545px;
             }
         }
 
@@ -83,13 +86,30 @@
                 right: 20px;
             }
 
-            .iframeFooter {
-                height: 886px;
-            }
-
             .main>img {
                 width: 90% !important;
             }
+
+            .main>p {
+                width: 90%;
+                word-break: break-all;
+            }
+        }
+
+        .dropdown-item {
+            color: #333;
+            font-size: 14px;
+            text-align: center;
+            padding: 5px 0;
+        }
+
+        .dropdown-item:hover {
+            color: #000;
+            background-color: #eee;
+        }
+
+        .active {
+            background-color: #eee;
         }
     </style>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
@@ -110,10 +130,11 @@
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                 data-toggle="dropdown" aria-expanded="false">导航</button>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                <a style="display: block;text-align: right;" class="dropdown-item" href="./index.html">首页</a>
-                <a style="display: block;text-align: right;" class="dropdown-item" href="./news.html">新闻</a>
-                <a style="display: block;text-align: right;" class="dropdown-item" href="./about.html">关于我们</a>
+            <div style="min-width: 100px;" class="dropdown-menu dropdown-menu-right"
+                aria-labelledby="dropdownMenuButton">
+                <a style="display: block;" class="dropdown-item" href="./index.html">首页</a>
+                <a style="display: block;" class="dropdown-item" href="./news.html">新闻</a>
+                <a style="display: block;" class="dropdown-item" href="./about.html">关于我们</a>
             </div>
         </div>
         <!-- 标题 -->
@@ -124,23 +145,47 @@
         <!-- 主界面 -->
         <main class="main">
             <!-- 正文 -->
-            <img style="margin: 10px 0;height: 60%;width: 50%;"
-                src="https://source.unsplash.com/600x800/?nature,water,1" alt="">
-            <p style="width: 83.3%;">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit hic eligendi fuga
+            <img style="margin: 10px 0;height: auto;width: 50%;" src="./assets/detail.jpg" alt="">
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit hic eligendi fuga
                 possimus officia quis
                 nulla eos totam cupiditate. Repellendus blanditiis cum sapiente aperiam minima maiores earum itaque in
                 enim?
                 Quae, hic earum saepe porro labore adipisci ab molestiae minima eaque veritatis fugiat magni consequatur
                 ex doloribus, neque placeat omnis sunt dignissimos at quam nisi sequi quisquam debitis et. Nihil?</p>
-            <p style="width: 83.3%;">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Unde dolorum odio ea sunt
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Unde dolorum odio ea sunt
                 similique culpa
                 dolorem vero iusto voluptatum dolore illum, minus, commodi saepe earum, debitis architecto ipsam
                 explicabo quisquam.</p>
         </main>
         <!-- 尾部 -->
-        <iframe class="iframeFooter" style="margin-top: 15px;margin-bottom: -5px;" src="footer.html" scrolling="no"
-            frameborder="0" height="363px" width="100%"></iframe>
+        <iframe class="iframeFooter" style="margin-top: 15px;margin-bottom: -5px;"
+            src="footer.html" scrolling="no" frameborder="0" height="363px" width="100%"></iframe>
+
+        <script>
+            function toChild() {
+                return window.location.href
+            }
+        </script>
     </div>
 </body>
+
+<script>
+    console.log(window.location.search);
+
+    function getDetail() {
+        let id = window.location.search.substr(1)
+        fetch(`https://www.mxnzp.com/api/news/details?newsId=${id}&app_id=emfjlekgxchngglp&app_secret=NStsd016Q0dtdEJMclpUbytualF5Zz09`)
+            .then(response => {
+                return response.json()
+            })
+            .then(json => {
+                console.log(json.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+    getDetail()
+</script>
 
 </html>

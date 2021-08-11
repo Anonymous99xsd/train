@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://kit.fontawesome.com/91f817937f.js" crossorigin="anonymous"></script>
     <!-- 地图api -->
     <script type="text/javascript"
         src="https://webapi.amap.com/maps?v=1.4.15&key=313c921165d35992a5f604daf15aa166&plugin=AMap.Geolocation,AMap.ToolBar,AMap.Scale">
@@ -26,6 +27,7 @@
 
         .container {
             width: 100%;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -65,21 +67,26 @@
 
         .content {
             width: 70%;
-            height: 300px;
             margin: 30px 0;
             display: flex;
             justify-content: space-around;
             align-items: center;
+            flex-wrap: wrap;
+            flex: 1;
         }
 
         #map {
-            height: 100%;
+            height: 300px;
             width: 40%;
         }
 
         .text {
             height: 100%;
             width: 40%;
+        }
+
+        .text>p {
+            word-break: break-all;
         }
 
         .text>span {
@@ -100,12 +107,13 @@
         }
 
         @media screen and (max-width: 992px) {
-            .text {
-                display: none;
-            }
-
             #map {
                 width: 83.3%;
+            }
+
+            .text {
+                width: 90%;
+                margin-top: 20px;
             }
         }
 
@@ -121,7 +129,7 @@
 
         @media screen and (max-width: 740px) {
             .iframeFooter {
-                height: 564px;
+                height: 545px;
             }
         }
 
@@ -132,16 +140,27 @@
 
             #map {
                 width: 100%;
-                height: 80%;
-            }
-
-            .iframeFooter {
-                height: 886px;
             }
 
             .content {
                 width: 100%;
             }
+        }
+
+        .dropdown-item {
+            color: #333;
+            font-size: 14px;
+            text-align: center;
+            padding: 5px 0;
+        }
+
+        .dropdown-item:hover {
+            color: #000;
+            background-color: #eee;
+        }
+
+        .active {
+            background-color: #eee;
         }
     </style>
 </head>
@@ -154,10 +173,10 @@
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                 data-toggle="dropdown" aria-expanded="false">导航</button>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                <a style="display: block;text-align: right;" class="dropdown-item" href="./index.html">首页</a>
-                <a style="display: block;text-align: right;" class="dropdown-item" href="./news.html">新闻</a>
-                <a style="display: block;text-align: right;" class="dropdown-item" href="./about.html">关于我们</a>
+            <div style="min-width: 100px;" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <a style="display: block;" class="dropdown-item" href="./index.html">首页</a>
+                <a style="display: block;" class="dropdown-item" href="./news.html">新闻</a>
+                <a style="display: block;" class="dropdown-item" href="./about.html">关于我们</a>
             </div>
         </div>
         <header>
@@ -184,9 +203,36 @@
             </div>
         </div>
         <!-- 尾部 -->
-        <iframe class="iframeFooter" style="margin-top: 15px;margin-bottom: -5px;" src="footer.html" scrolling="no" frameborder="0"
-        height="363px" width="100%"></iframe>
+        <iframe class="iframeFooter" style="margin-top: 15px;margin-bottom: -5px;" src="footer.html" scrolling="no"
+            frameborder="0" height="363px" width="100%"></iframe>
+
+        <script>
+            function toChild() {
+                return window.location.href
+            }
+
+            let goto = document.querySelectorAll('.dropdown-item')
+            if (window.location.href.includes('index')) {
+                goto[0].classList.add('active')
+                goto[1].classList.remove('active')
+                goto[2].classList.remove('active')
+            } else if (window.location.href.includes('news')) {
+                goto[0].classList.remove('active')
+                goto[1].classList.add('active')
+                goto[2].classList.remove('active')
+            } else if (window.location.href.includes('about')) {
+                goto[0].classList.remove('active')
+                goto[1].classList.remove('active')
+                goto[2].classList.add('active')
+            }
+        </script>
     </div>
+
+    <script>
+        function toChild() {
+            return window.location.href
+        }
+    </script>
 </body>
 
 <script>
