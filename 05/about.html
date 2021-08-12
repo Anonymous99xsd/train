@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/91f817937f.js" crossorigin="anonymous"></script>
+    <!-- 地图api -->
+    <script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.15&key=313c921165d35992a5f604daf15aa166&plugin=AMap.Geolocation,AMap.ToolBar,AMap.Scale">
+    </script>
+    <!-- jQuery CDN -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous">
+    </script>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+        }
+
+        .header {
+            width: 100%;
+            height: 60px;
+            background-color: #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .head-logo {
+            margin-left: 100px;
+        }
+
+        .head-nav {
+            margin-right: 100px;
+        }
+
+        .head-nav>a {
+            cursor: pointer;
+            color: #000;
+            text-decoration: none;
+            padding: 0 10px;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            background-color: #eee;
+            width: 100%;
+        }
+
+        .content {
+            width: 70%;
+            margin: 30px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+
+        #map {
+            height: 300px;
+            width: 40%;
+        }
+
+        .text {
+            height: 100%;
+            width: 40%;
+        }
+
+        .text>p {
+            word-break: break-all;
+        }
+
+        .text>span {
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute !important;
+            right: 100px;
+            top: 8px;
+        }
+
+        #dropdownMenuButton {
+            height: 40px;
+            background-color: #999;
+        }
+
+        @media screen and (max-width: 992px) {
+            #map {
+                width: 83.3%;
+            }
+
+            .text {
+                width: 90%;
+                margin-top: 20px;
+            }
+        }
+
+        @media screen and (max-width: 760px) {
+            .dropdown {
+                display: block;
+            }
+
+            .content {
+                width: 100%;
+            }
+        }
+
+        @media screen and (max-width: 740px) {
+            .iframeFooter {
+                height: 545px;
+            }
+        }
+
+        @media screen and (max-width: 440px) {
+            .dropdown {
+                right: 20px;
+            }
+
+            #map {
+                width: 100%;
+            }
+
+            .content {
+                width: 100%;
+            }
+        }
+
+        .dropdown-item {
+            color: #333;
+            font-size: 14px;
+            text-align: center;
+            padding: 5px 0;
+        }
+
+        .dropdown-item:hover {
+            color: #000;
+            background-color: #eee;
+        }
+
+        .active {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <iframe style="margin-top: -5px;margin-bottom: -5px;" src="header.html" scrolling="no" frameborder="0"
+            height="60px" width="100%"></iframe>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-expanded="false">导航</button>
+            <div style="min-width: 100px;" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <a style="display: block;" class="dropdown-item" href="./index.html">首页</a>
+                <a style="display: block;" class="dropdown-item" href="./news.html">新闻</a>
+                <a style="display: block;" class="dropdown-item" href="./about.html">关于我们</a>
+            </div>
+        </div>
+        <header>
+            <h2>关于我们</h2>
+        </header>
+        <div class="content">
+            <div id="map"></div>
+            <div class="text">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae tempora vitae consequuntur nobis
+                    aspernatur perferendis explicabo totam animi libero! Distinctio in ab aperiam perspiciatis cumque
+                    illum facere accusantium cupiditate minus?</p>
+                <span>
+                    <i class="far fa-address-card"></i>
+                    企业家的菜鸟厕所里那么热
+                </span>
+                <span>
+                    <i class="fab fa-apple"></i>
+                    asdfghjkl@qq.com
+                </span>
+                <span>
+                    <i class="fab fa-alipay"></i>
+                    028-280-2080
+                </span>
+            </div>
+        </div>
+        <!-- 尾部 -->
+        <iframe class="iframeFooter" style="margin-top: 15px;margin-bottom: -5px;" src="footer.html" scrolling="no"
+            frameborder="0" height="363px" width="100%"></iframe>
+
+        <script>
+            function toChild() {
+                return window.location.href
+            }
+
+            let goto = document.querySelectorAll('.dropdown-item')
+            if (window.location.href.includes('index')) {
+                goto[0].classList.add('active')
+                goto[1].classList.remove('active')
+                goto[2].classList.remove('active')
+            } else if (window.location.href.includes('news')) {
+                goto[0].classList.remove('active')
+                goto[1].classList.add('active')
+                goto[2].classList.remove('active')
+            } else if (window.location.href.includes('about')) {
+                goto[0].classList.remove('active')
+                goto[1].classList.remove('active')
+                goto[2].classList.add('active')
+            }
+        </script>
+    </div>
+
+    <script>
+        function toChild() {
+            return window.location.href
+        }
+    </script>
+</body>
+
+<script>
+    // 初始化地图
+    var map = new AMap.Map('map', {
+        resizeEnable: true, //是否监控地图容器尺寸变化
+        // zoom: 11, //初始化地图层级
+        center: [104.07803, 30.55367] //初始化地图中心点
+    });
+
+    // 加载插件
+    AMap.plugin(['AMap.Geolocation', 'AMap.ToolBar', 'AMap.Scale'], function () {
+        // 标尺插件
+        var toolbar = new AMap.ToolBar();
+        map.addControl(toolbar);
+
+        // 比例尺插件
+        var scale = new AMap.Scale({
+            position: 'LB',
+            offset: new AMap.Pixel(50, 20)
+        })
+        map.addControl(scale)
+
+        // 定位插件
+        var geolocation = new AMap.Geolocation({
+            // 是否使用高精度定位，默认：true
+            enableHighAccuracy: true,
+            // 设置定位超时时间，默认：无穷大
+            timeout: 5000,
+            // 定位按钮的停靠位置的偏移量，默认：Pixel(10, 20)
+            buttonOffset: new AMap.Pixel(10, 20),
+            //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            zoomToAccuracy: true,
+            //  定位按钮的排放位置,  RB表示右下
+            buttonPosition: 'RB',
+            showButton: true,
+        })
+        map.addControl(geolocation)
+        geolocation.getCurrentPosition()
+        AMap.event.addListener(geolocation, 'complete', onComplete)
+        AMap.event.addListener(geolocation, 'error', onError)
+        // 成功回调
+        function onComplete(data) {
+            // data是具体的定位信息
+            console.log('定位成功', data);
+
+            // 添加标记点
+            var marker = new AMap.Marker({
+                position: [data.position.R, data.position.Q] //位置
+            })
+            map.add(marker); //添加到地图
+        }
+        // 失败回调
+        function onError(data) {
+            // 定位出错
+            console.log('定位出错', data);
+        }
+    })
+
+    // 地图加载完成
+    map.on("complete", function () {
+        console.log("地图加载完成！");
+    });
+</script>
+
+</html>
