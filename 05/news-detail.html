@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,11 @@
         body {
             margin: 0;
             width: 100%;
+        }
+
+        p {
+            text-indent: 2em;
+            width: 80%;
         }
 
         .container {
@@ -140,52 +145,39 @@
         <!-- 标题 -->
         <div class="title">
             <span class="vertical"></span>
-            <span style="font-size: 18px;font-weight: 600;">来如流水兮逝如风，不知何处来兮何所终</span>
+            <span style="font-size: 18px;font-weight: 600;"></span>
         </div>
         <!-- 主界面 -->
         <main class="main">
-            <!-- 正文 -->
-            <img style="margin: 10px 0;height: auto;width: 50%;" src="./assets/detail.jpg" alt="">
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit hic eligendi fuga
-                possimus officia quis
-                nulla eos totam cupiditate. Repellendus blanditiis cum sapiente aperiam minima maiores earum itaque in
-                enim?
-                Quae, hic earum saepe porro labore adipisci ab molestiae minima eaque veritatis fugiat magni consequatur
-                ex doloribus, neque placeat omnis sunt dignissimos at quam nisi sequi quisquam debitis et. Nihil?</p>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Unde dolorum odio ea sunt
-                similique culpa
-                dolorem vero iusto voluptatum dolore illum, minus, commodi saepe earum, debitis architecto ipsam
-                explicabo quisquam.</p>
+            <div class="content"></div>
         </main>
         <!-- 尾部 -->
         <iframe class="iframeFooter" style="margin-top: 15px;margin-bottom: -5px;"
             src="footer.html" scrolling="no" frameborder="0" height="363px" width="100%"></iframe>
-
-        <script>
-            function toChild() {
-                return window.location.href
-            }
-        </script>
     </div>
 </body>
 
 <script>
-    console.log(window.location.search);
-
-    function getDetail() {
+    function getDetail(newsId) {
         let id = window.location.search.substr(1)
-        fetch(`https://www.mxnzp.com/api/news/details?newsId=${id}&app_id=emfjlekgxchngglp&app_secret=NStsd016Q0dtdEJMclpUbytualF5Zz09`)
+        fetch(`https://www.mxnzp.com/api/news/details?newsId=${newsId}&app_id=qqothbeulyoiomlw&app_secret=SEVub0xLMWhobGVxUWp2S0p6TGpwUT09`)
             .then(response => {
                 return response.json()
             })
             .then(json => {
                 console.log(json.data);
+                let data = json.data
+                document.querySelector('.title>span:nth-of-type(2)').innerText = data.title
+                for (let i = 0; i < data.images.length; i++) {
+                    $('.main').append(`<img style="margin: 10px 0;height: auto;width: 50%;" src="${data.images[i].imgSrc}" />`)
+                }
+                $('.main').append(data.content)
             })
             .catch(error => {
                 console.log(error);
             })
     }
-    getDetail()
+    getDetail(window.location.search.substr(1))
 </script>
 
 </html>

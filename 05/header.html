@@ -77,20 +77,22 @@
 </body>
 
 <script>
-    let value = window.parent.toChild()
-    let goto = document.querySelectorAll('#goto')
-    if (value.includes('index')) {
-        goto[0].classList.add('active')
-        goto[1].classList.remove('active')
-        goto[2].classList.remove('active')
-    } else if (value.includes('news')) {
-        goto[0].classList.remove('active')
-        goto[1].classList.add('active')
-        goto[2].classList.remove('active')
-    } else if (value.includes('about')) {
-        goto[0].classList.remove('active')
-        goto[1].classList.remove('active')
-        goto[2].classList.add('active')
+    if (window.parent.toChild) {
+        let value = window.parent.toChild()
+        let goto = document.querySelectorAll('#goto')
+        if (value.includes('index')) {
+            goto[0].classList.add('active')
+            goto[1].classList.remove('active')
+            goto[2].classList.remove('active')
+        } else if (value.includes('news')) {
+            goto[0].classList.remove('active')
+            goto[1].classList.add('active')
+            goto[2].classList.remove('active')
+        } else if (value.includes('about')) {
+            goto[0].classList.remove('active')
+            goto[1].classList.remove('active')
+            goto[2].classList.add('active')
+        }
     }
 </script>
 

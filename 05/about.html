@@ -145,6 +145,10 @@
             .content {
                 width: 100%;
             }
+
+            header>h2 {
+                font-size: 24px;
+            }
         }
 
         .dropdown-item {
@@ -173,7 +177,8 @@
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                 data-toggle="dropdown" aria-expanded="false">导航</button>
-            <div style="min-width: 100px;" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+            <div style="min-width: 100px;" class="dropdown-menu dropdown-menu-right"
+                aria-labelledby="dropdownMenuButton">
                 <a style="display: block;" class="dropdown-item" href="./index.html">首页</a>
                 <a style="display: block;" class="dropdown-item" href="./news.html">新闻</a>
                 <a style="display: block;" class="dropdown-item" href="./about.html">关于我们</a>
@@ -190,7 +195,7 @@
                     illum facere accusantium cupiditate minus?</p>
                 <span>
                     <i class="far fa-address-card"></i>
-                    企业家的菜鸟厕所里那么热
+                    <span class="address"></span>
                 </span>
                 <span>
                     <i class="fab fa-apple"></i>
@@ -240,7 +245,7 @@
     var map = new AMap.Map('map', {
         resizeEnable: true, //是否监控地图容器尺寸变化
         // zoom: 11, //初始化地图层级
-        center: [104.07803, 30.55367] //初始化地图中心点
+        // center: [104.07803, 30.55367] //初始化地图中心点
     });
 
     // 加载插件
@@ -269,6 +274,9 @@
             //  定位按钮的排放位置,  RB表示右下
             buttonPosition: 'RB',
             showButton: true,
+            panToLocation: true, //定位成功后将定位到的位置作为地图中心点，默认：true
+            showMarker: true, //定位成功后在定位到的位置显示点标记，默认：true
+            extensions: 'base',
         })
         map.addControl(geolocation)
         geolocation.getCurrentPosition()
@@ -278,6 +286,7 @@
         function onComplete(data) {
             // data是具体的定位信息
             console.log('定位成功', data);
+            document.querySelector('.address').innerText = data.formattedAddress
 
             // 添加标记点
             var marker = new AMap.Marker({
