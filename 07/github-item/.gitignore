@@ -8,6 +8,7 @@ package.json
 package-lock.json
 README.md
 webpack.config.js
+webpack.prod.config.js
 yarn.lock
 /.pnp
 .pnp.js
