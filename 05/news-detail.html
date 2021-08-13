@@ -16,6 +16,9 @@
             text-indent: 2em;
             width: 80%;
         }
+        p:first-child {
+            margin-top: 30px;
+        }
 
         .container {
             width: 100% !important;
@@ -49,7 +52,7 @@
             width: 4px;
             height: 20px;
             background-color: red;
-            margin-right: 10px;
+            margin: 0 10px;
         }
 
         .dropdown {
@@ -93,11 +96,16 @@
 
             .main>img {
                 width: 90% !important;
+                max-width: none !important;
             }
 
             .main>p {
                 width: 90%;
                 word-break: break-all;
+            }
+
+            span {
+                font-size: 16px !important;
             }
         }
 
@@ -145,12 +153,10 @@
         <!-- 标题 -->
         <div class="title">
             <span class="vertical"></span>
-            <span style="font-size: 18px;font-weight: 600;"></span>
+            <span style="font-size: 18px;font-weight: 600;margin-right: 10px;"></span>
         </div>
         <!-- 主界面 -->
-        <main class="main">
-            <div class="content"></div>
-        </main>
+        <main class="main"></main>
         <!-- 尾部 -->
         <iframe class="iframeFooter" style="margin-top: 15px;margin-bottom: -5px;"
             src="footer.html" scrolling="no" frameborder="0" height="363px" width="100%"></iframe>
@@ -167,9 +173,12 @@
             .then(json => {
                 console.log(json.data);
                 let data = json.data
+                if (!data) {
+                    $('.main').append(`<h1 style="color:red">新闻数据获取失败，请返回</h1><button onclick="window.history.back()">返回</button>`)
+                }
                 document.querySelector('.title>span:nth-of-type(2)').innerText = data.title
                 for (let i = 0; i < data.images.length; i++) {
-                    $('.main').append(`<img style="margin: 10px 0;height: auto;width: 50%;" src="${data.images[i].imgSrc}" />`)
+                    $('.main').append(`<img style="margin: 10px 0;height: auto;min-width: 50%;max-width: 80%" src="${data.images[i].imgSrc}" />`)
                 }
                 $('.main').append(data.content)
             })

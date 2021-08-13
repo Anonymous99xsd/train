@@ -66,7 +66,7 @@
         }
 
         .content {
-            width: 70%;
+            width: 80%;
             margin: 30px 0;
             display: flex;
             justify-content: space-around;
@@ -91,7 +91,7 @@
 
         .text>span {
             display: block;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .dropdown {
@@ -245,7 +245,7 @@
     var map = new AMap.Map('map', {
         resizeEnable: true, //是否监控地图容器尺寸变化
         // zoom: 11, //初始化地图层级
-        // center: [104.07803, 30.55367] //初始化地图中心点
+        // center: [104.07300320095499, 30.54015625] //初始化地图中心点
     });
 
     // 加载插件
@@ -289,10 +289,13 @@
             document.querySelector('.address').innerText = data.formattedAddress
 
             // 添加标记点
-            var marker = new AMap.Marker({
+            var marker1 = new AMap.Marker({
+                position: [104.07300320095499, 30.54015625] //位置
+            })
+            var marker2 = new AMap.Marker({
                 position: [data.position.R, data.position.Q] //位置
             })
-            map.add(marker); //添加到地图
+            map.add([marker1, marker2]); //添加到地图
         }
         // 失败回调
         function onError(data) {

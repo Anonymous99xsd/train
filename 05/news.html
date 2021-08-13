@@ -85,7 +85,8 @@
         .item:hover {
             border: 1px solid #eee;
             transform: scale(1.05);
-            box-shadow: 0 0 4px rgba(0, 0, 0, .2);
+            box-shadow: 0 0 6px rgba(0, 0, 0, .2);
+            transition: transform .2s ease-in-out;
         }
 
         .artical {
@@ -264,7 +265,8 @@
 <script>
     var data = [],
         indexPage = 0,
-        pages = null
+        pages = parseInt(sessionStorage.getItem('page') ?? 0),
+        totalPage = 2
     // 添加分页列表
     for (let i = 0; i < 3; i++) {
         $('#right').before(
@@ -286,11 +288,10 @@
                 console.log(error.message);
             })
     }
-    getData(0)
+    getData(pages)
 
     // 跳转
     function gotoNews(index) {
-        console.log(data[index]);
         window.location.href = `news-detail.html?${data[index].newsId}`
     }
 
@@ -298,19 +299,20 @@
     function prePage(index) {
         if (index === 0) return
         else {
-            changePage(--index)
+            getData(--index)
         }
     }
 
     function nextPage(index) {
-        if (index === pages - 1) return
+        if (index === totalPage) return
         else {
-            changePage(++index)
+            getData(++index)
         }
     }
 
     // 换页
     function changePage(index) {
+        sessionStorage.setItem('page', index)
         let items = ''
         for (let i = 0; i < 8; i++) {
             items += `
@@ -335,7 +337,7 @@
         $(`.act:nth-child(${index + 2})`).addClass('active').siblings().removeClass('active')
         if (index === 0) $('#leftcss').css('cursor', 'not-allowed')
         else $('#leftcss').css('cursor', 'pointer')
-        if (index === pages - 1) $('#rightcss').css('cursor', 'not-allowed')
+        if (index === totalPage) $('#rightcss').css('cursor', 'not-allowed')
         else $('#rightcss').css('cursor', 'pointer')
 
         // 图片懒加载
