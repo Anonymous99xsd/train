@@ -79,8 +79,9 @@
 <script>
     if (window.parent.toChild) {
         let value = window.parent.toChild()
+        let path = value.substr(value.lastIndexOf('/'));
         let goto = document.querySelectorAll('#goto')
-        if (value.includes('index')) {
+        if (path === '/' || path.includes('index')) {
             goto[0].classList.add('active')
             goto[1].classList.remove('active')
             goto[2].classList.remove('active')
