@@ -278,15 +278,16 @@
             }
 
             let goto = document.querySelectorAll('.dropdown-item')
-            if (window.location.href.includes('index')) {
+            let path = window.location.href.substr(window.location.href.lastIndexOf('/'))
+            if (path === '/' || path.includes('index')) {
                 goto[0].classList.add('active')
                 goto[1].classList.remove('active')
                 goto[2].classList.remove('active')
-            } else if (window.location.href.includes('news')) {
+            } else if (path.includes('news')) {
                 goto[0].classList.remove('active')
                 goto[1].classList.add('active')
                 goto[2].classList.remove('active')
-            } else if (window.location.href.includes('about')) {
+            } else if (path.includes('about')) {
                 goto[0].classList.remove('active')
                 goto[1].classList.remove('active')
                 goto[2].classList.add('active')
