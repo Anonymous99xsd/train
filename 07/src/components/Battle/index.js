@@ -74,7 +74,7 @@ export default function Battle() {
         user1: nameObj?.user1 ?? '',
         user2: nameObj?.user2 ?? '',
         },
-        onSubmit: v => {
+        onSubmit: () => {
         if (isAvatar[0] || isAvatar[1]) {
             setIsShow(true)
             localStorage.setItem('isBtn', true)

@@ -140,7 +140,7 @@ function App() {
         }
         loadMoreData(hash, true)
       }
-    }, [])  // eslint-disable-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
       <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
@@ -222,7 +222,6 @@ function App() {
         getUser(nameObj.user1)
         getUser(nameObj.user2)
       }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
