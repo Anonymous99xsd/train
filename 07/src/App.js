@@ -28,7 +28,7 @@ function App() {
   const [kind, setKind] = useState(0)
   // 存储错误信息
   const [error, setError] = useState(null)
-  const [isErr, setIsErr] = useState(false)
+  const [isErr, setIsErr] = useState(false
 
   // loading
   const spinRef = useRef()
@@ -82,7 +82,7 @@ function App() {
       (data.length && data.map((item, index) => {
         return (
           <div className="items" key={item.id} style={{borderRadius:'8px',width:'22%', display:'flex', flexDirection:'column', alignItems:'center', backgroundColor:'#eee', margin:'10px auto'}}>
-            <h2>#{index + 1}</h2>
+            <h2>#{index + 1}ewqdewdwq</h2>
             <img style={{display:'block', width:'160px', height:'160px'}} src={item.owner.avatar_url || require('./assets/default.webp').default} alt="" />
             <h4 style={{color:'red'}}>{item.name}</h4>
             <div style={{width:'100%', textAlign:'left', marginBottom:'20px'}}>
@@ -178,6 +178,8 @@ function App() {
       localStorage.removeItem('nameObj')
       localStorage.removeItem('isBtn')
       localStorage.removeItem('users')
+
+
     }
 
     return (
@@ -230,12 +232,13 @@ function App() {
         const boolArr = [bool, !bool]
         return (
           <div style={{backgroundColor:'#eee', display:'flex', flexDirection:'column', alignItems:'center'}} key={item.id}>
-            <h2>{boolArr[index] ? 'Winner' : 'loser'}</h2>
+            <h2>{boolArr[index] ? 'Winner' : 'loser'}1341234</h2>
             <img style={{display:'block', width:'200px', height:'200px', padding:'0 40px'}} src={item.avatar_url || require('./assets/default.webp').default} alt="" />
             <h3>Score: {item.public_repos + item.public_gists}</h3>
             <h2 style={{marginTop:'0', color:'#2091f9'}}>{item.name}</h2>
             <div style={{width:'100%', textAlign:'left', marginBottom:'20px'}}>
               <dd>
+                324176
                 <i style={{marginRight:'14px'}} className="fa fa-location-arrow"></i>
                 {item.location}
               </dd>
