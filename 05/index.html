@@ -56,7 +56,7 @@
         }
 
         .team-content {
-            width: 83.3%;
+            width: 100%;
         }
 
         .team-content>div {
@@ -70,11 +70,12 @@
         }
 
         .team-content>div>div {
-            max-width: 500px;
+            width: 50%;
             padding: 40px;
             flex: 1;
             display: flex;
             flex-direction: column;
+            justify-content: space-around;
             align-items: center;
             word-break: break-all;
         }
@@ -99,6 +100,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+
+        .news-content>div>img {
+            width: 220px;
         }
 
         .news-content>div>p {
@@ -135,7 +140,7 @@
 
         @media screen and (max-width: 760px) {
             .team-content>div>div {
-                width: 90%;
+                width: 100%;
             }
 
             .team-content>div>div>h3 {
@@ -175,6 +180,10 @@
         }
 
         @media screen and (max-width: 440px) {
+            .main {
+                margin: 0 15px;
+            }
+
             .main>h2 {
                 margin: 10px 0;
                 font-size: 16px;
@@ -202,6 +211,7 @@
             }
 
             .team-content>div>img {
+                width: 345px;
                 height: auto;
             }
 
@@ -218,8 +228,9 @@
 
             .news-content>div>img,
             .team-content>div>img {
-                width: 90%;
+                width: 100%;
             }
+
             .service-content {
                 justify-content: center;
             }
@@ -296,13 +307,13 @@
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner" role="listbox">
                     <div class="item active">
-                        <img data-src="./assets/swiper1.jpg" src="" alt="">
+                        <img data-src="./assets/swiper1" src="" alt="">
                     </div>
                     <div class="item">
-                        <img data-src="./assets/swiper2.jpg" src="" alt="">
+                        <img data-src="./assets/swiper2" src="" alt="">
                     </div>
                     <div class="item">
-                        <img data-src="./assets/swiper3.jpg" src="" alt="">
+                        <img data-src="./assets/swiper3" src="" alt="">
                     </div>
                 </div>
 
@@ -483,7 +494,7 @@
             <h2>团队介绍</h2>
             <div class="team-content">
                 <div>
-                    <img data-src="./assets/team1.jpg" src="" alt="">
+                    <img data-src="./assets/team1" src="" alt="">
                     <div>
                         <h3 style="text-align: center;">春兰秋菊各擅胜场，卧龙凤雏齐聚一堂</h3>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas perspiciatis facilis
@@ -506,10 +517,10 @@
                             dolorum a eligendi officiis quam, voluptatum obcaecati aut voluptate, illo laudantium
                             inventore tenetur asperiores quas assumenda accusamus.</p>
                     </div>
-                    <img data-src="./assets/team2.jpg" src="" alt="">
+                    <img data-src="./assets/team2" src="" alt="">
                 </div>
                 <div>
-                    <img data-src="./assets/team3.jpg" src="" alt="">
+                    <img data-src="./assets/team3" src="" alt="">
                     <div>
                         <h3 style="text-align: center;">人生忧患，亦复如是，永无断绝</h3>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas perspiciatis facilis
@@ -526,7 +537,7 @@
             <h2>新闻动态</h2>
             <div class="news-content">
                 <div>
-                    <img data-src="./assets/news1.jpg" src="" alt="">
+                    <img data-src="./assets/news1" src="" alt="">
                     <h5>纵一苇之所如，凌万顷之茫然</h5>
                     <p style="font-size: 12px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga excepturi,
                         nisi, aut aliquam eum
@@ -534,7 +545,7 @@
                         aspernatur voluptate illum in vitae.</p>
                 </div>
                 <div>
-                    <img data-src="./assets/news2.jpg" src="" alt="">
+                    <img data-src="./assets/news2" src="" alt="">
                     <h5>人生不如意事十居八九</h5>
                     <p style="font-size: 12px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa fugiat
                         qui nobis quam, minus
@@ -542,7 +553,7 @@
                         corrupti fugit.</p>
                 </div>
                 <div>
-                    <img data-src="./assets/news3.jpg" src="" alt="">
+                    <img data-src="./assets/news3" src="" alt="">
                     <h5>急急流年，滔滔逝水</h5>
                     <p style="font-size: 12px;">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum sint a
                         odio iusto blanditiis.
@@ -550,7 +561,7 @@
                         aliquid libero repellat dignissimos sequi?</p>
                 </div>
                 <div>
-                    <img data-src="./assets/news4.jpg" src="" alt="">
+                    <img data-src="./assets/news4" src="" alt="">
                     <h5>渡河未济，击其中流</h5>
                     <p style="font-size: 12px;">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum sint a
                         odio iusto blanditiis.
@@ -591,7 +602,11 @@
     let io = new IntersectionObserver(entries => {
         entries.forEach((v, i) => {
             if (v.isIntersecting) {
-                v.target.src = v.target.getAttribute('data-src')
+                if (navigator.userAgent.includes('iPhone') && !v.target.getAttribute('data-src').includes('swiper')) {
+                    v.target.src = v.target.getAttribute('data-src') + '@p.jpg'
+                } else {
+                    v.target.src = v.target.getAttribute('data-src') + '.jpg'
+                }
                 io.unobserve(v.target)
             }
         })

@@ -59,11 +59,9 @@
         }
 
         .list {
-            width: 83.3%;
-            margin-top: 20px;
+            margin: 20px 0;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(4, 1fr);
+            grid-template-columns: auto auto;
             grid-row-gap: 30px;
             grid-column-gap: 30px;
             align-items: center;
@@ -87,10 +85,6 @@
             transform: scale(1.05);
             box-shadow: 0 0 6px rgba(0, 0, 0, .2);
             transition: transform .2s ease-in-out;
-        }
-
-        .artical {
-            margin-left: 10px;
         }
 
         .artical>h4 {
@@ -147,13 +141,12 @@
             }
 
             .list {
+                margin: 20px 15px;
                 grid-template-columns: repeat(1, 1fr);
-                grid-template-rows: repeat(8, 1fr);
             }
 
             .item {
                 align-items: center;
-                padding-top: 20px;
                 border: 1px solid #eee;
                 border-radius: 4px;
             }
@@ -164,7 +157,11 @@
             }
 
             .list img {
-                width: 94%;
+                width: 100%;
+            }
+
+            .item>div {
+                width: 100%;
             }
         }
 
@@ -315,13 +312,13 @@
     function changePage(index) {
         sessionStorage.setItem('page', index)
         let items = ''
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < data.length; i++) {
             items += `
                     <div onclick="gotoNews(${i})" class="item">
-                        <div style="width:200px;height:140px">
+                        <div style="height:140px;">
                             <img data-src="${data[i]?.imgList && data[i].imgList[0] !== 'null' ? data[i].imgList[0] : './assets/news1.jpg'}" src="" alt="图片获取失败">
                         </div>
-                        <div class="artical">
+                        <div class="artical" style="padding:0 15px">
                             <h4>${data[i].title}</h4>
                             <p>${data[i].source}</p>
                             <p>一篇读罢头飞雪，六朝何事，只成门户私计。</p>
