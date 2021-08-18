@@ -1,13 +1,16 @@
 import React, { useState, useRef, useEffect, createContext, useContext, lazy, Suspense } from 'react'
 import axios from 'axios'
 import InfinityScroll from 'react-infinite-scroller'
-import { HashRouter as Router, Route, NavLink, Link, Switch, Redirect } from 'react-router-dom'
+import { HashRouter as Router, Route, NavLink, Switch, Redirect } from 'react-router-dom'
 // import './App.css';
 import './App.less'
 // import Battle from './components/Battle/index'
 // import Nav from './components/Nav/index'
 const Battle = lazy(() => import('./components/Battle/index'))
 const Nav = lazy(() => import('./components/Nav/index'))
+const Result = lazy(() => import('./components/Result/index'))
+import Spin from './components/Spin/index'
+import toggle from './components/toggle'
 
 function App() {
   // 图片数据
@@ -28,38 +31,33 @@ function App() {
   const [kind, setKind] = useState(0)
   // 存储错误信息
   const [error, setError] = useState(null)
-  const [isErr, setIsErr] = useState(false
+  const [isErr, setIsErr] = useState(false)
 
   // loading
   const spinRef = useRef()
-  const toggle = (value) => {
-    if (value) {
-      if (spinRef.current) spinRef.current.style.display = 'flex'
-    }
-    else spinRef.current.style.display = 'none'
-  }
 
   // 加载用户数据
   function loadMoreData(index, bool) {
-    toggle(true)
+    toggle(spinRef, true)
+    setKind(index)
     axios.get(url[index] + (bool === true ? '1' : count))
     .then(response => {
       console.log(response.data);
       if (bool === true) {
         setData([...response.data.items])
-        setKind(index)
         setCount(2)
       } else {
         setData([...data, ...response.data.items])
         setCount(count + 1)
       }
-      toggle(false)
+      toggle(spinRef, false)
     })
     .catch(error => {
       console.log(error);
-      toggle(false)
+      setData([])
       setError(error)
       setIsErr(true)
+      toggle(spinRef, false)
     })
   }
 
@@ -82,7 +80,7 @@ function App() {
       (data.length && data.map((item, index) => {
         return (
           <div className="items" key={item.id} style={{borderRadius:'8px',width:'22%', display:'flex', flexDirection:'column', alignItems:'center', backgroundColor:'#eee', margin:'10px auto'}}>
-            <h2>#{index + 1}ewqdewdwq</h2>
+            <h2>#{index + 1}</h2>
             <img style={{display:'block', width:'160px', height:'160px'}} src={item.owner.avatar_url || require('./assets/default.webp').default} alt="" />
             <h4 style={{color:'red'}}>{item.name}</h4>
             <div style={{width:'100%', textAlign:'left', marginBottom:'20px'}}>
@@ -122,17 +120,17 @@ function App() {
       if (!isGot) {
         setIsGot(true)
         let hash = null
-        switch (window.location.hash.substr(1)) {
-            case '/home/javascript':
+        switch (window.location.hash.split('?')[1]) {
+            case 'javascript':
               hash = 1
               break
-            case '/home/ruby':
+            case 'ruby':
               hash = 2
               break
-            case '/home/java':
+            case 'java':
               hash = 3
               break
-            case '/home/css':
+            case 'css':
               hash = 4
               break
             default:
@@ -149,16 +147,16 @@ function App() {
             <NavLink onClick={() => loadMoreData(0, true)} style={{textDecoration:'none', color:kind === 0 ? 'red' : ''}} to='/home'>All</NavLink>
           </li>
           <li className="tabHover" style={{cursor:'pointer', fontSize:'18px', fontWeight:700}}>
-            <NavLink onClick={() => loadMoreData(1, true)} style={{textDecoration:'none', color:kind === 1 ? 'red' : ''}} to="/home/javascript">JavaScript</NavLink>
+            <NavLink onClick={() => loadMoreData(1, true)} style={{textDecoration:'none', color:kind === 1 ? 'red' : ''}} to="/home?javascript">JavaScript</NavLink>
           </li>
           <li className="tabHover" style={{cursor:'pointer', fontSize:'18px', fontWeight:700}}>
-            <NavLink onClick={() => loadMoreData(2, true)} style={{textDecoration:'none', color:kind === 2 ? 'red' : ''}} to="/home/ruby">Ruby</NavLink>
+            <NavLink onClick={() => loadMoreData(2, true)} style={{textDecoration:'none', color:kind === 2 ? 'red' : ''}} to="/home?ruby">Ruby</NavLink>
           </li>
           <li className="tabHover" style={{cursor:'pointer', fontSize:'18px', fontWeight:700}}>
-            <NavLink onClick={() => loadMoreData(3, true)} style={{textDecoration:'none', color:kind === 3 ? 'red' : ''}} to="/home/java">Java</NavLink>
+            <NavLink onClick={() => loadMoreData(3, true)} style={{textDecoration:'none', color:kind === 3 ? 'red' : ''}} to="/home?java">Java</NavLink>
           </li>
           <li className="tabHover" style={{cursor:'pointer', fontSize:'18px', fontWeight:700}}>
-            <NavLink onClick={() => loadMoreData(4, true)} style={{textDecoration:'none', color:kind === 4 ? 'red' : ''}} to="/home/css">CSS</NavLink>
+            <NavLink onClick={() => loadMoreData(4, true)} style={{textDecoration:'none', color:kind === 4 ? 'red' : ''}} to="/home?css">CSS</NavLink>
           </li>
         </ul>
         <div style={{width:'100%'}}>
@@ -169,100 +167,6 @@ function App() {
           </InfinityScroll>
         </div>
       </div>
-    )
-  }
-  
-  // 对比结果
-  function Result() {
-    const resetClick = () => {
-      localStorage.removeItem('nameObj')
-      localStorage.removeItem('isBtn')
-      localStorage.removeItem('users')
-
-
-    }
-
-    return (
-      <div style={{width:'60%', margin:'0 auto', display:'flex', flexDirection:'column'}}>
-        <div style={{display:'flex', justifyContent:'space-around'}}>
-          <Compare />
-        </div>
-        <button onClick={() => resetClick()} style={{margin:'100px auto 0', width:'200px', fontSize:'22px', lineHeight:'40px', cursor:'pointer'}}>
-          <Link style={{textDecoration:'none', color:'#333', padding:'10px 55px'}} to='/battle'>RESET</Link>
-        </button>
-      </div>
-    )
-  }
-
-  // 对比项目
-  function Compare() {
-    // 对比用户数据
-    const [users, setUsers] = useState(JSON.parse(localStorage.getItem('users')) || [])
-
-    // 获取用户数据
-    const getUser = (name) => {
-      toggle(true)
-      axios.get('https://api.github.com/users/' + name)
-        .then(response => {
-          let tempArr = users
-          tempArr.push(response.data)
-          console.log([...tempArr]);
-          setUsers([...tempArr])
-          localStorage.setItem('users', JSON.stringify(tempArr))
-          toggle(false)
-        })
-        .catch(error => {
-          console.log(new Error('用户搜索失败', error))
-          toggle(false)
-        })
-    }
-    
-    // 调用用户查询接口
-    useEffect(() => {
-      let nameObj = JSON.parse(localStorage.getItem('nameObj'))
-      if (users.length === 0) {
-        getUser(nameObj.user1)
-        getUser(nameObj.user2)
-      }
-    }, [])
-
-    return (
-      (users.length === 2 && users?.map((item, index) => {
-        const bool = users[0].public_gists + users[0].public_repos >= users[1].public_gists + users[1].public_repos
-        const boolArr = [bool, !bool]
-        return (
-          <div style={{backgroundColor:'#eee', display:'flex', flexDirection:'column', alignItems:'center'}} key={item.id}>
-            <h2>{boolArr[index] ? 'Winner' : 'loser'}1341234</h2>
-            <img style={{display:'block', width:'200px', height:'200px', padding:'0 40px'}} src={item.avatar_url || require('./assets/default.webp').default} alt="" />
-            <h3>Score: {item.public_repos + item.public_gists}</h3>
-            <h2 style={{marginTop:'0', color:'#2091f9'}}>{item.name}</h2>
-            <div style={{width:'100%', textAlign:'left', marginBottom:'20px'}}>
-              <dd>
-                324176
-                <i style={{marginRight:'14px'}} className="fa fa-location-arrow"></i>
-                {item.location}
-              </dd>
-              <dd>
-                <i style={{marginRight:'10px'}} className="fa fa-group"></i>
-                {item.followers}
-              </dd>
-              <dd>
-                <i style={{marginRight:'10px'}} className="fa fa-user-plus"></i>
-                {item.following}
-              </dd>
-              <dd>
-                <i style={{marginRight:'10px'}} className="fa fa-code"></i>
-                {item.public_repos}
-              </dd>
-            </div>
-          </div>
-        )
-      })) || (
-        <div style={{display:isErr ? 'block' : 'none'}}>
-          <h1 style={{color:'red'}}>ERROR: 数据获取失败</h1>
-          <p style={{color:'red'}}>错误信息: {error?.toString()}</p>
-        </div>
-      )
     )
   }
 
@@ -280,16 +184,7 @@ function App() {
           </Switch>
         </Suspense>
       </Router>
-      <div ref={spinRef} className="spin">
-        <div className="sk-chase">
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-        </div>
-      </div>
+      <Spin spinRef={spinRef} />
     </div>
   );
 }
