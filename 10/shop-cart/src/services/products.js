@@ -91,6 +91,11 @@ export default {
                 ...state,
             }
         },
+        // 打开购物车
+        openShop(state) {
+            if (!state.isEject) state.isEject = true
+            return { ...state }
+        },
         // 关闭购物车
         closeShop(state) {
             if (state.isEject) state.isEject = false
