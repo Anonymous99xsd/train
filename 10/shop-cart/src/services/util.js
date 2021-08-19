@@ -1,5 +1,5 @@
 export function getList() {
-    return fetch('http://localhost:8001/api/products')
+    return fetch('https://react-shopping-cart-67954.firebaseio.com/products.json')
         .then(response => {
             return response.json()
         })
@@ -7,6 +7,6 @@ export function getList() {
             return data
         })
         .catch(error => {
-            throw new Error(error)
+            return new Error(error)
         })
 }

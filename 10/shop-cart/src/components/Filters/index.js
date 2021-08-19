@@ -14,7 +14,6 @@ function Filters(props) {
 
     // 选择过滤尺码
     function chooseSize(sizeName, bool) {
-        console.log(bool);
         const { dispatch, sizes} = props
         let obj = JSON.parse(JSON.stringify(sizes))
         let len = Object.values(obj).filter(v => v === false).length

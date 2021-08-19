@@ -13,11 +13,12 @@
     margin-bottom: 30px;
     border: 1px solid transparent;
     cursor: pointer;
+    transition: all .2s ease-in-out;
 }
 
 .item:hover {
     border: 1px solid #eee;
-    box-shadow: 0 0 4px rgba(0, 0, 0, .2);
+    box-shadow: 0 0 6px rgba(0, 0, 0, .2);
     transform: scale(1.05);
 }
 
@@ -80,8 +81,22 @@
     cursor: pointer;
     transition: background-color .15s ease-in-out;
     font-size: 16px;
+    user-select: none;
 }
 
 .item:hover .item-btn {
     background-color: #eabf00;
+    color: #000;
+}
+
+@media screen and (max-width: 992px) {
+    .item {
+        width: 33%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .item {
+        width: 50%;
+    }
 }

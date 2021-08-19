@@ -4,11 +4,14 @@ import { Menu, Dropdown } from 'antd'
 import { connect } from 'dva'
 import 'antd/dist/antd.css';
 import Items from '../Items/index'
+import Spin from '../Spin/index'
 
 const mapStateToProps = state => {
     return {
         data: state.data.data,
-        sizes: state.data.sizes
+        sizes: state.data.sizes,
+        error: state.data.error,
+        isSpin: state.data.isSpin
     }
 }
 
@@ -70,6 +73,8 @@ function Shelf(props) {
                 </div>
             </div>
             <Items getNum={getNum} />
+            <h1 style={{display: props.error === null ? 'none' : 'block', color: 'red'}}>数据获取失败: {props.error && props.error.toString()}</h1>
+            <Spin isSpin={props.isSpin} />
         </div>
     )
 }
