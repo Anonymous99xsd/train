@@ -15,10 +15,13 @@ function App () {
     ])
     // 当前加载数据种类
     const [kind, setKind] = React.useState(0)
+    // 判断是否在加载
+    const [isLoading, setIsLoading] = React.useState(false)
 
     // 加载用户数据
     function loadMoreData (index, bool) {
         setKind(index)
+        setIsLoading(true)
         fetch(url[index] + (bool === true ? '1' : count))
             .then(data => data.json())
             .then(response => {
@@ -30,6 +33,7 @@ function App () {
                     setData([...data, ...response.items])
                     setCount(count + 1)
                 }
+                setIsLoading(false)
             })
             .catch(error => {
                 console.log(error);
@@ -119,7 +123,17 @@ function App () {
                 <div style={{ width: '100%', display: 'flex', flexWrap: 'wrap' }}>
                     <Item />
                 </div>
-                <button onClick={() => loadMoreData(count)} style={{ height: '40px', width: '200px', cursor: 'pointer' }}>加载更多</button>
+                <button disabled={isLoading ? 'disabled' : ''} onClick={() => loadMoreData(count)} style={{ height: '60px', width: '200px', cursor: 'pointer', position: 'relative' }}>
+                    <p style={{ display: isLoading ? 'none' : 'block', fontSize: '16px' }}>加载更多</p>
+                    <div style={{ display: isLoading ? 'block' : 'none' }} class="sk-chase">
+                        <div class="sk-chase-dot"></div>
+                        <div class="sk-chase-dot"></div>
+                        <div class="sk-chase-dot"></div>
+                        <div class="sk-chase-dot"></div>
+                        <div class="sk-chase-dot"></div>
+                        <div class="sk-chase-dot"></div>
+                    </div>
+                </button>
             </div>
         )
     }
