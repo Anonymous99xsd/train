@@ -18,6 +18,25 @@ function App () {
     // 判断是否在加载
     const [isLoading, setIsLoading] = React.useState(false)
 
+    const updateQueryStringParameter = (key, value) => {
+        let url = window.location.href;
+        if (!value) {
+            return url;
+        }
+        let re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+        let separator = url.indexOf("?") !== -1 ? "&" : "?";
+        if (url.match(re)) {
+            return url.replace(re, "$1" + key + "=" + value + "$2");
+        } else {
+            return url + separator + key + "=" + value;
+        }
+    }
+
+    const updateUrl = (key, value) => {
+        let newurl = updateQueryStringParameter(key, value);
+        window.history.replaceState({ path: newurl }, "", newurl);
+    };
+
     // 加载用户数据
     function loadMoreData (index, bool) {
         setKind(index)
@@ -29,6 +48,25 @@ function App () {
                 if (bool === true) {
                     setData([...response.items])
                     setCount(2)
+                    let val = ''
+                    switch (index) {
+                        case 0:
+                            val = 'all'
+                            break
+                        case 1:
+                            val = 'javascript'
+                            break
+                        case 2:
+                            val = 'ruby'
+                            break
+                        case 3:
+                            val = 'java'
+                            break
+                        case 4:
+                            val = 'CSS'
+                            break
+                    }
+                    updateUrl('tab', val)
                 } else {
                     setData([...data, ...response.items])
                     setCount(count + 1)
@@ -81,7 +119,8 @@ function App () {
             if (!isGot) {
                 setIsGot(true)
                 let hash = null
-                switch (window.location.hash.split('?')[1]) {
+                console.log(window.location.search);
+                switch (window.location.search.split('=')[1]) {
                     case 'javascript':
                         hash = 1
                         break
