@@ -16,7 +16,7 @@ function Items(props) {
     // 添加至购物车
     const addToCart = (good) => {
         dispatch({
-            type: 'data/addToCart',
+            type: 'cart/addToCart',
             payload: good
         })
     }

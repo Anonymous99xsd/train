@@ -16,7 +16,7 @@ function App(props) {
       type: 'data/getListHttp'
     })
     dispatch({
-      type: 'data/getShopCart'
+      type: 'cart/getShopCart'
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

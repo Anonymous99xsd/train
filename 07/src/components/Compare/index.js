@@ -43,34 +43,37 @@ export default function Compare({ spinRef }) {
 
     return (
         (users.length === 2 && users?.map((item, index) => {
-        const bool = users[0].public_gists + users[0].public_repos >= users[1].public_gists + users[1].public_repos
-        const boolArr = [bool, !bool]
-        return (
-            <div style={{backgroundColor:'#eee', display:'flex', flexDirection:'column', alignItems:'center', padding:'15px 20px'}} key={item.id}>
-            <h2>{boolArr[index] ? 'Winner' : 'loser'}</h2>
-            <img style={{display:'block', width:'200px', height:'200px'}} src={item.avatar_url || require('../../assets/default.webp').default} alt="" />
-            <h3>Score: {item.public_repos + item.public_gists}</h3>
-            <h2 style={{marginTop:'0', color:'#2091f9'}}>{item.name}</h2>
-            <div style={{width:'100%', textAlign:'left', marginBottom:'20px'}}>
-                <dd>
-                <i style={{marginRight:'14px'}} className="fa fa-location-arrow"></i>
-                {item.location}
-                </dd>
-                <dd>
-                <i style={{marginRight:'10px'}} className="fa fa-group"></i>
-                {item.followers}
-                </dd>
-                <dd>
-                <i style={{marginRight:'10px'}} className="fa fa-user-plus"></i>
-                {item.following}
-                </dd>
-                <dd>
-                <i style={{marginRight:'10px'}} className="fa fa-code"></i>
-                {item.public_repos}
-                </dd>
-            </div>
-            </div>
-        )
+            let score1 = users[0].public_repos,
+                score2 = users[1].public_repos
+            let boolArr = null
+            if (score1 === score2) boolArr = ['draw', 'draw']
+            else boolArr = [score1 > score2, score1 < score2]
+            return (
+                <div style={{backgroundColor:'#eee', display:'flex', flexDirection:'column', alignItems:'center', padding:'15px 20px'}} key={item.id}>
+                <h2>{boolArr[index]}</h2>
+                <img style={{display:'block', width:'200px', height:'200px'}} src={item.avatar_url || require('../../assets/default.webp').default} alt="" />
+                <h3>Score: {item.public_repos + item.public_gists}</h3>
+                <h2 style={{marginTop:'0', color:'#2091f9'}}>{item.name}</h2>
+                <div style={{width:'100%', textAlign:'left', marginBottom:'20px'}}>
+                    <dd>
+                    <i style={{marginRight:'14px'}} className="fa fa-location-arrow"></i>
+                    {item.location}
+                    </dd>
+                    <dd>
+                    <i style={{marginRight:'10px'}} className="fa fa-group"></i>
+                    {item.followers}
+                    </dd>
+                    <dd>
+                    <i style={{marginRight:'10px'}} className="fa fa-user-plus"></i>
+                    {item.following}
+                    </dd>
+                    <dd>
+                    <i style={{marginRight:'10px'}} className="fa fa-code"></i>
+                    {item.public_repos}
+                    </dd>
+                </div>
+                </div>
+            )
         })) || (
         <div>
             <h1 style={{color:'red'}}>ERROR: 数据获取失败</h1>
