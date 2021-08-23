@@ -64,9 +64,9 @@ export default function Battle() {
         let username = e.target.parentNode.childNodes[1].value
         if (username.trim() === '') return
         if (!num) {
-        getAvatar(username, 0)
+            getAvatar(username, 0)
         } else {
-        getAvatar(username, 1)
+            getAvatar(username, 1)
         }
     }
 

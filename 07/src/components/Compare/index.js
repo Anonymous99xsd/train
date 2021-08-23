@@ -32,10 +32,10 @@ export default function Compare({ spinRef }) {
     useEffect(() => {
         toggle(spinRef, true)
         if (!usersname[0] || !usersname[1]) {
-        window.location.href = '/#/battle'
-        localStorage.removeItem('nameObj')
-        localStorage.removeItem('isBtn')
-        localStorage.removeItem('users')
+            window.location.hash = '#/battle'
+            localStorage.removeItem('nameObj')
+            localStorage.removeItem('isBtn')
+            localStorage.removeItem('users')
         }
         getUser(usersname[0])
         getUser(usersname[1])
@@ -46,8 +46,9 @@ export default function Compare({ spinRef }) {
             let score1 = users[0].public_repos,
                 score2 = users[1].public_repos
             let boolArr = null
+            console.log(users);
             if (score1 === score2) boolArr = ['draw', 'draw']
-            else boolArr = [score1 > score2, score1 < score2]
+            else boolArr = [score1 > score2 ? 'winner' : 'loser', score1 < score2 ? 'winner' : 'loser']
             return (
                 <div style={{backgroundColor:'#eee', display:'flex', flexDirection:'column', alignItems:'center', padding:'15px 20px'}} key={item.id}>
                 <h2>{boolArr[index]}</h2>
