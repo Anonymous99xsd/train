@@ -6,9 +6,7 @@ import { message } from 'antd';
 import 'antd/dist/antd.css';
 
 export default function Battle() {
-    const [isShow, setIsShow] = useState(localStorage.getItem('isBtn') || false)
-    // 获取本地存储数据
-    const [nameObj] = useState(JSON.parse(localStorage.getItem('nameObj')))
+    const [isShow, setIsShow] = useState(false)
     // 控制头像实例显示
     const [isAvatar, setIsAvatar] = useState([false, false])
     const [img, setImg] = useState(new Array(2))
@@ -31,23 +29,23 @@ export default function Battle() {
             return
         }
         axios.get('https://api.github.com/users/' + username)
-          .then(response => {
-            let temp = img.slice()
-            temp[index] = `https://avatars.githubusercontent.com/u/${response.data.id}?s=200&v=4`
-            setImg(temp)
-            let tempname = name.slice()
-            tempname[index] = username
-            setName(tempname)
-          })
-          .then(() => {
-            let temp = isAvatar.slice()
-            temp[index] = true
-            setIsAvatar(temp)
-          })
-          .catch(error => {
-            console.log('error', error.message);
-            errorMsg()
-          })
+            .then(response => {
+                let temp = img.slice()
+                temp[index] = `https://avatars.githubusercontent.com/u/${response.data.id}?s=200&v=4`
+                setImg(temp)
+                let tempname = name.slice()
+                tempname[index] = username
+                setName(tempname)
+            })
+            .then(() => {
+                let temp = isAvatar.slice()
+                temp[index] = true
+                setIsAvatar(temp)
+            })
+            .catch(error => {
+                console.log('error', error.message);
+                errorMsg()
+            })
         // let temp = img.slice()
         // temp[index] = `https://github.com/${username}.png?size=200`
         // setImg(temp)
@@ -63,6 +61,7 @@ export default function Battle() {
         if (e.clientX === 0 || (e.keyCode && e.keyCode !== 13)) return
         let username = e.target.parentNode.childNodes[1].value
         if (username.trim() === '') return
+        if (isAvatar[num]) return
         if (!num) {
             getAvatar(username, 0)
         } else {
@@ -76,33 +75,30 @@ export default function Battle() {
         setIsAvatar(temp)
         setIsShow(false)
         if (!index) {
-        formik.values.user1 = ''
-        userRef1.current.value = ''
+            formik.values.user1 = ''
+            userRef1.current.value = ''
         } else {
-        formik.values.user2 = ''
-        userRef2.current.value = ''
+            formik.values.user2 = ''
+            userRef2.current.value = ''
         }
     }
 
     // 表单
     const formik = useFormik({
         initialValues: {
-        user1: nameObj?.user1 ?? '',
-        user2: nameObj?.user2 ?? '',
+            user1: '',
+            user2: '',
         },
         onSubmit: () => {
-        if (isAvatar[0] || isAvatar[1]) {
-            setIsShow(true)
-            localStorage.setItem('isBtn', true)
-        }
+            if (isAvatar[0] || isAvatar[1]) {
+                setIsShow(true)
+            }
         },
         validate: v => {
-        localStorage.removeItem('isBtn')
-        setIsShow(false)
-        localStorage.setItem('nameObj', JSON.stringify(v))
-        let error = {}
-        if (!v.user1) error.message = '请输入用户名'
-        return error
+            setIsShow(false)
+            let error = {}
+            if (!v.user1) error.message = '请输入用户名'
+            return error
         }
     })
 
@@ -135,12 +131,12 @@ export default function Battle() {
             <div>
                 <h3 style={{textAlign:'center'}}>Player One</h3>
                 <input onKeyDown={(e) => {clickHandle(e, 0)}} ref={userRef1} name="user1" type="text" defaultValue={formik.values.user1} onChange={formik.handleChange} />
-                <button onClick={(e) => {clickHandle(e, 0)}} style={{marginLeft:'20px', cursor:formik.values.user1.trim() === '' ? 'not-allowed' : 'pointer'}} disabled={formik.values.user1.trim() === '' ? 'disabled' : ''} type="submit">SUBMIT</button>
+                <button onClick={(e) => {clickHandle(e, 0)}} style={{marginLeft:'20px', cursor:formik.values.user1.trim() === '' ? 'not-allowed' : 'pointer'}} disabled={formik.values.user1.trim() === '' || isAvatar[0] ? 'disabled' : ''} type="submit">SUBMIT</button>
             </div>
             <div>
                 <h3 style={{textAlign:'center'}}>Player Two</h3>
                 <input onKeyDown={(e) => {clickHandle(e, 1)}} ref={userRef2} name="user2" type="text" defaultValue={formik.values.user2} onChange={formik.handleChange} />
-                <button onClick={(e) => {clickHandle(e, 1)}} style={{marginLeft:'20px', cursor:formik.values.user2.trim() === '' ? 'not-allowed' : 'pointer'}} disabled={formik.values.user2.trim() === '' ? 'disabled' : ''} type="submit">SUBMIT</button>
+                <button onClick={(e) => {clickHandle(e, 1)}} style={{marginLeft:'20px', cursor:formik.values.user2.trim() === '' ? 'not-allowed' : 'pointer'}} disabled={formik.values.user2.trim() === '' || isAvatar[1] ? 'disabled' : ''} type="submit">SUBMIT</button>
             </div>
             </div>
         </form>
