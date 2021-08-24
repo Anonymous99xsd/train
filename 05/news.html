@@ -32,10 +32,17 @@
             flex: 1;
         }
 
-        .title {
+        .title-container {
             width: 100%;
             background-color: #eee;
             height: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        .title {
+            width: 1200px;
+            margin: 0 auto;
         }
 
         .title>span:first-child {
@@ -68,7 +75,7 @@
         }
 
         .list img {
-            width: 200px;
+            width: 100%;
             height: 100%;
             object-fit: cover;
         }
@@ -78,6 +85,7 @@
             display: flex;
             cursor: pointer;
             border: 1px solid transparent;
+            height: 180px;
         }
 
         .item:hover {
@@ -85,6 +93,11 @@
             transform: scale(1.05);
             box-shadow: 0 0 6px rgba(0, 0, 0, .2);
             transition: transform .2s ease-in-out;
+        }
+
+        .artical {
+            width: 50%;
+            padding-left: 15px;
         }
 
         .artical>h4 {
@@ -98,6 +111,10 @@
         .artical>p:nth-of-type(1) {
             font-size: 12px;
             color: #666;
+        }
+
+        .newimg {
+            width: 50%;
         }
 
         .dropdown {
@@ -149,6 +166,11 @@
                 align-items: center;
                 border: 1px solid #eee;
                 border-radius: 4px;
+                height: auto;
+            }
+
+            .title {
+                margin: 0 15px;
             }
 
             .title>span:nth-child(2),
@@ -162,6 +184,16 @@
 
             .item>div {
                 width: 100%;
+            }
+
+            .newimg {
+                width: 100%;
+                height: 100px;
+            }
+
+            .artical {
+                width: 100%;
+                padding: 0 15px;
             }
         }
 
@@ -199,10 +231,12 @@
             </div>
         </div>
         <!-- 标题 -->
-        <div class="title">
-            <span></span>
-            <span>最新动态</span>
-            <span>NEW!</span>
+        <div class="title-container">
+            <div class="title">
+                <span></span>
+                <span>最新动态</span>
+                <span>NEW!</span>
+            </div>
         </div>
         <!-- 主界面 -->
         <main class="main">
@@ -273,7 +307,9 @@
     }
     // 获取数据
     function getData(page) {
-        fetch(`https://www.mxnzp.com/api/news/list?typeId=509&page=${page + 1}&app_id=qqothbeulyoiomlw&app_secret=SEVub0xLMWhobGVxUWp2S0p6TGpwUT09`)
+        fetch(
+                `https://www.mxnzp.com/api/news/list?typeId=509&page=${page + 1}&app_id=qqothbeulyoiomlw&app_secret=SEVub0xLMWhobGVxUWp2S0p6TGpwUT09`
+            )
             .then(response => {
                 return response.json()
             })
@@ -315,10 +351,10 @@
         for (let i = 0; i < data.length; i++) {
             items += `
                     <div onclick="gotoNews(${i})" class="item">
-                        <div style="height:140px;">
+                        <div class="newimg">
                             <img data-src="${data[i]?.imgList && data[i].imgList[0] !== 'null' ? data[i].imgList[0] : './assets/news1.jpg'}" src="" alt="图片获取失败">
                         </div>
-                        <div class="artical" style="padding:0 15px">
+                        <div class="artical">
                             <h4>${data[i].title}</h4>
                             <p>${data[i].source}</p>
                             <p>一篇读罢头飞雪，六朝何事，只成门户私计。</p>

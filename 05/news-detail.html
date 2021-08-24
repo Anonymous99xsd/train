@@ -41,15 +41,19 @@
             width: 100%;
         }
 
-        .title {
+        .title-container {
             width: 100%;
             background-color: #eee;
-            padding: 0 100px;
             box-sizing: border-box;
+            margin-top: 5px;
+        }
+
+        .title {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            margin-top: 5px;
         }
 
         .vertical {
@@ -57,7 +61,7 @@
             width: 4px;
             height: 20px;
             background-color: red;
-            margin: 0 10px;
+            margin-right: 10px;
         }
 
         .time {
@@ -91,6 +95,7 @@
         @media screen and (max-width: 440px) {
             .title {
                 padding: 0;
+                margin: 0 15px;
             }
 
             .dropdown {
@@ -156,10 +161,12 @@
             </div>
         </div>
         <!-- 标题 -->
-        <div class="title">
-            <span class="vertical"></span>
-            <span style="font-size: 18px;font-weight: 600;margin-right: 10px;width: 90%;"></span>
-            <p class="time"></p>
+        <div class="title-container">
+            <div class="title">
+                <span class="vertical"></span>
+                <span style="font-size: 18px;font-weight: 600;margin-right: 10px;width: 90%;"></span>
+                <p class="time"></p>
+            </div>
         </div>
         <!-- 主界面 -->
         <main class="main"></main>
