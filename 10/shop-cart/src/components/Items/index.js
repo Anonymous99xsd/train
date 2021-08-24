@@ -4,8 +4,8 @@ import './index.css'
 
 const mapStateToProps = state => {
     return {
-        data: state.data.data,
-        sizes: state.data.sizes
+        data: state.products.data,
+        sizes: state.products.sizes
     }
 }
 
@@ -35,7 +35,7 @@ function Items(props) {
     return (
         <div ref={itemRef} className="item-container">
             {
-                list.map((v, i) => {
+                list.map((_, i) => {
                     for (let v of list[i].availableSizes) {
                         if (sizeArr.includes(v)) return (
                             <div className="item" key={list[i].id}>

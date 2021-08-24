@@ -8,10 +8,10 @@ import Spin from '../Spin/index'
 
 const mapStateToProps = state => {
     return {
-        data: state.data.data,
-        sizes: state.data.sizes,
-        error: state.data.error,
-        isSpin: state.data.isSpin
+        data: state.products.data,
+        sizes: state.products.sizes,
+        error: state.products.error,
+        isSpin: state.products.isSpin
     }
 }
 
@@ -23,24 +23,18 @@ function Shelf(props) {
 
     // 点击排序
     const sortItem = (e) => {
-        // console.log(e);
-        let obj = JSON.parse(JSON.stringify(props.data))
         if (e.key === '0') {
-            obj.sort((a, b) => a.id - b.id)
             setSortWay('默认排序')
         } else if (e.key === '1') {
-            obj.sort((a, b) => a.price - b.price)
             setSortWay('价格从低到高')
         } else if (e.key === '2') {
-            obj.sort((a, b) => b.price - a.price)
             setSortWay('价格从高到低')
         }
-
         const { dispatch } = props
         dispatch({
-            type: 'data/sort',
+            type: 'products/sortCarts',
             payload: {
-                data: obj
+                key: e.key
             }
         })
     }

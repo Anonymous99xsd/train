@@ -4,7 +4,7 @@ import { connect } from 'dva'
 
 const mapStateToProps = state => {
     return {
-        sizes: state.data.sizes
+        sizes: state.products.sizes
     }
 }
 
@@ -38,7 +38,7 @@ function Filters(props) {
         }
         
         dispatch({
-            type: 'data/filterSize',
+            type: 'products/filterSize',
             payload: {
                 sizes: obj
             }

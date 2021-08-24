@@ -13,7 +13,7 @@ function App(props) {
   useEffect(() => {
     const { dispatch } = props
     dispatch({
-      type: 'data/getListHttp'
+      type: 'products/getListHttp'
     })
     dispatch({
       type: 'cart/getShopCart'
