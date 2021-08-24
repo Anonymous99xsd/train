@@ -307,9 +307,8 @@
     }
     // 获取数据
     function getData(page) {
-        fetch(
-                `https://www.mxnzp.com/api/news/list?typeId=509&page=${page + 1}&app_id=qqothbeulyoiomlw&app_secret=SEVub0xLMWhobGVxUWp2S0p6TGpwUT09`
-            )
+        if (page === indexPage) return
+        fetch(`https://www.mxnzp.com/api/news/list?typeId=509&page=${page + 1}&app_id=qqothbeulyoiomlw&app_secret=SEVub0xLMWhobGVxUWp2S0p6TGpwUT09`)
             .then(response => {
                 return response.json()
             })

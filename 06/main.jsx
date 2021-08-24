@@ -17,6 +17,9 @@ function App () {
     const [kind, setKind] = React.useState(0)
     // 判断是否在加载
     const [isLoading, setIsLoading] = React.useState(false)
+    // 存储错误信息
+    const [error, setError] = React.useState(null)
+    const [isErr, setIsErr] = React.useState(false)
 
     const updateQueryStringParameter = (key, value) => {
         let url = window.location.href;
@@ -44,7 +47,6 @@ function App () {
         fetch(url[index] + (bool === true ? '1' : count))
             .then(data => data.json())
             .then(response => {
-                console.log(response);
                 if (bool === true) {
                     setData([...response.items])
                     setCount(2)
@@ -74,7 +76,9 @@ function App () {
                 setIsLoading(false)
             })
             .catch(error => {
-                console.log(error);
+                setError(error.message)
+                setIsErr(true)
+                setIsLoading(false)
                 setData([])
             })
     }
@@ -82,7 +86,7 @@ function App () {
     // 数据项目
     function Item () {
         return (
-            (data.length || <h1>ERROR</h1>) && data.map((item, index) => {
+            data.length && data.map((item, index) => {
                 return (
                     <div className="items" key={item.id} style={{ borderRadius: '8px', width: '22%', display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#eee', margin: '10px auto' }}>
                         <h2>#{index + 1}</h2>
@@ -108,7 +112,12 @@ function App () {
                         </div>
                     </div>
                 )
-            })
+            }) || (
+                <div style={{ display: isErr ? 'block' : 'none' }}>
+                    <h1 style={{ color: 'red' }}>ERROR: 数据获取失败</h1>
+                    <p style={{ color: 'red' }}>错误信息: {error}</p>
+                </div>
+            )
         )
     }
 
@@ -119,7 +128,6 @@ function App () {
             if (!isGot) {
                 setIsGot(true)
                 let hash = null
-                console.log(window.location.search);
                 switch (window.location.search.split('=')[1]) {
                     case 'javascript':
                         hash = 1
@@ -159,7 +167,7 @@ function App () {
                         <span onClick={() => loadMoreData(4, true)} style={{ textDecoration: 'none', color: kind === 4 ? 'red' : '' }}>CSS</span>
                     </li>
                 </ul>
-                <div style={{ width: '100%', display: 'flex', flexWrap: 'wrap' }}>
+                <div style={{ width: '100%', display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                     <Item />
                 </div>
                 <button disabled={isLoading ? 'disabled' : ''} onClick={() => loadMoreData(count)} style={{ height: '60px', width: '200px', cursor: 'pointer', position: 'relative' }}>
