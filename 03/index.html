@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人展示页</title>
+    <script src="https://kit.fontawesome.com/91f817937f.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        header {
+            min-width: 100%;
+            height: 60px;
+            background-color: rgb(255, 70, 70);
+        }
+
+        a {
+            outline: none;
+            text-decoration: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        a:hover {
+            color: #333;
+        }
+
+        .header {
+            margin: 0 auto;
+            width: 860px;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header>span {
+            display: flex;
+        }
+
+        .header>span>p,
+        .header>span>a {
+            margin: 0 10px;
+        }
+
+        .header p {
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .horizon {
+            width: 60px;
+            height: 3px;
+            border-radius: 3px;
+            background-color: purple;
+            margin-bottom: 20px;
+        }
+
+        .movie,
+        .book {
+            width: 860px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .item {
+            width: 200px;
+            padding: 10px 10px 5px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 0, 0, .3);
+            background-color: rgba(255, 0, 0, .1);
+            cursor: pointer;
+        }
+
+        .item:hover {
+            box-shadow: 0 0 6px rgba(0, 0, 0, .2);
+            transform: scale(1.05);
+            transition: transform .2s ease-in-out;
+        }
+
+        .item img {
+            width: 180px;
+        }
+
+        .item .title {
+            width: 100%;
+            text-align: center;
+        }
+
+        footer {
+            min-width: 100%;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            background-color: rgb(128, 0, 0);
+            margin-top: 20px;
+            box-sizing: border-box;
+        }
+
+        .foot-container {
+            display: flex;
+        }
+
+        .foot-container p {
+            color: #fff;
+            width: 600px;
+            padding-right: 40px;
+        }
+
+        .foot-container img {
+            width: 180px;
+        }
+
+        .footer {
+            width: 860px;
+            color: #fff;
+            font-size: 12px;
+            padding-top: 20px;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header">
+            <p><i style="color: rgb(255, 255, 0);font-size: 24px;vertical-align: middle;margin-right: 10px;" class="fas fa-book"></i>用户名</p>
+            <span>
+                <p>个人中心</p>
+                <a href="#movie">喜欢的电影</a>
+                <a href="#book">喜欢的书籍</a>
+            </span>
+        </div>
+    </header>
+    <main class="container">
+        <h3 id="movie">喜欢的电影</h3>
+        <div class="horizon"></div>
+        <div class="movie">
+            <div class="item">
+                <img src="./img/xskdjs.webp" alt="" />
+                <div class="title">肖申克的救赎</div>
+            </div>
+            <div class="item">
+                <img src="./img//bwbj.webp" alt="">
+                <div class="title">霸王别姬</div>
+            </div>
+            <div class="item">
+                <img src="./img/1984.jpg" alt="">
+                <div class="title">1984</div>
+            </div>
+            <div class="item">
+                <img src="./img/leon.webp" alt="">
+                <div class="title">这个杀手不太冷</div>
+            </div>
+        </div>
+        <h3 id="book">喜欢的书</h3>
+        <div class="horizon"></div>
+        <div class="book">
+            <div class="item">
+                <img style="height: 242px;" src="./img/hlm.jpg" alt="">
+                <div class="title">红楼梦</div>
+            </div>
+            <div class="item">
+                <img src="./img/live.jpg" alt="">
+                <div class="title">活着</div>
+            </div>
+            <div class="item">
+                <img style="height: 242px;" src="./img/bngd.jpg" alt="">
+                <div class="title">百年孤独</div>
+            </div>
+            <div class="item">
+                <img style="height: 220px;" src="./img/agzz.webp" alt="">
+                <div class="title">阿甘正传</div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="foot-container">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil rerum numquam facilis laboriosam laborum
+                molestiae, aperiam consequatur distinctio debitis nostrum ea doloremque iste hic inventore, tempore
+                exercitationem! Odit, nobis corrupti.</p>
+            <img src="https://qr.api.cli.im/newqr/create?data=lorem&level=H&transparent=false&bgcolor=%23FFFFFF&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&logoshape=no&size=260&kid=cliim&key=6387395d8434dd2209ccd82c595a8d44"
+                alt="">
+        </div>
+        <div class="footer">版权归我自己所有</div>
+    </footer>
+</body>
+
+</html>

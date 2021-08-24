@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>井字棋</title>
+    <link rel="stylesheet" href="index.css">
+    <!-- React -->
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <!-- jquery -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+        function App() {
+            const { useState, useRef, useEffect } = window.React
+
+            // 存放数组
+            const [box, setBox] = useState(Array.from(new Array(3), () => new Array(3).fill(null)))
+            // 输入字符
+            const [input, setInput] = useState(true)
+            // 填入次数
+            const [num, setNum] = useState(1)
+            // 结果
+            const [res, setRes] = useState(null)
+            // 记录历史
+            const [history, setHistory] = useState([JSON.parse(JSON.stringify(box))])
+            // 总记录数
+            const [lis, setLis] = useState(new Array(9).fill(false))
+            const listRef = useRef()
+
+            // useEffect(() => {
+            //     setHistory())
+            // }, [])
+
+            // 点击事件
+            function clickHandle(e) {
+                // 填入字符，更新数组
+                if (res !== null || e.target.innerHTML !== '') return
+
+                let xo = input ? 'X' : 'O'
+                e.target.innerHTML = xo
+                let arr = JSON.parse(JSON.stringify(box))
+                let value = e.target.getAttribute('value')
+                arr[value / 3 | 0][value % 3] = xo
+                setBox(arr)
+                setInput(!input)
+
+                // 判断回溯
+                if (history.length > num) {
+                    let tempArr = JSON.parse(JSON.stringify(history))
+                    tempArr.splice(num, Infinity, arr)
+                    setHistory(tempArr)
+                    // 清除之后的历史
+                    let templis = lis
+                    for (let i = num - 1; i < 9; i++) {
+                        templis[i] = false
+                    }
+                    setLis(templis)
+                } else {
+                    setHistory([...history, arr])
+                }
+
+                // 判断输赢
+                setRes(judgeIsWin(arr))
+
+                // 添加记录
+                let templis = lis
+                templis[num - 1] = true
+                setLis(templis)
+                setNum(num + 1)
+            }
+
+            // 回溯
+            function backtrack(index) {
+                setBox(history[index])
+                let tds = document.getElementsByTagName('td')
+                let count = 0
+                for (let i = 0; i < 3; i++) {
+                    for (let j = 0; j < 3; j++) {
+                        tds[count].innerHTML = history[index][i][j]
+                        count++
+                    }
+                }
+                setNum(index + 1)
+                setInput(index % 2 === 0 ? true : false)
+                // 判断输赢
+                setRes(judgeIsWin(history[index]))
+            }
+
+            // 判断输赢
+            function judgeIsWin(arr) {
+                let isWin = null
+                for (let i = 0; i < 3; i++) {
+                    if ((arr[i][0] === arr[i][1] && arr[i][1] === arr[i][2] && arr[i][0] !== null) || (arr[0][i] === arr[1][i] && arr[1][i] === arr[2][i] && arr[0][i] !== null)) {
+                        isWin = arr[i][i]
+                        break
+                    }
+                }
+                if (!isWin) {
+                    if (arr[1][1] !== null && (arr[0][0] === arr[1][1] && arr[1][1] === arr[2][2]) || (arr[0][2] === arr[1][1] && arr[1][1] === arr[2][0])) isWin = arr[1][1]
+                }
+                return isWin
+            }
+
+            // 加载记录
+            function Items() {
+                return (
+                    lis.map((v, i) => {
+                        return (
+                            <button style={{display:v ? 'block' : 'none'}} onClick={() => {backtrack(i + 1)}} key={i}>{i + 2}. GO to move #{i + 1}</button>
+                        )
+                    })
+                )
+            }
+
+            return (
+                <div className="container">
+                    <div className="well">
+                        <table border= "1px solid #333" cellSpacing="0" cellPadding="0" className="lattice">
+                            <tbody onClick={(e) => clickHandle(e)}>
+                                <tr>
+                                    <td value={0}></td>
+                                    <td value={1}></td>
+                                    <td value={2}></td>
+                                </tr>
+                                <tr>
+                                    <td value={3}></td>
+                                    <td value={4}></td>
+                                    <td value={5}></td>
+                                </tr>
+                                <tr>
+                                    <td value={6}></td>
+                                    <td value={7}></td>
+                                    <td value={8}></td>
+                                </tr></tbody>
+                        </table>
+                    </div>
+                    <div className="detailed">
+                        <h2>{res === null ? `Next Player: ${input ? 'X' : 'O'}` : `Winner: ${res}`}</h2>
+                        <div ref={listRef} className="list">
+                            <button onClick={() => backtrack(0)}>1. Go to game start</button>
+                            <Items />
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+
+        ReactDOM.render(<App />, document.getElementById('app'))
+    </script>
+</body>
+
+</html>

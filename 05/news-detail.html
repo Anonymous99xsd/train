@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            width: 100%;
+        }
+
+        p {
+            text-indent: 2em;
+            width: 80%;
+        }
+        p:first-child {
+            margin-top: 30px;
+        }
+
+        .container {
+            width: 100% !important;
+            padding: 0 !important;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main {
+            max-width: 1200px !important;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .main>p {
+            width: 100%;
+        }
+
+        .title-container {
+            width: 100%;
+            background-color: #eee;
+            box-sizing: border-box;
+            margin-top: 5px;
+        }
+
+        .title {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .vertical {
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background-color: red;
+            margin-right: 10px;
+        }
+
+        .time {
+            margin-bottom: 0;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute !important;
+            right: 100px;
+            top: 8px;
+        }
+
+        #dropdownMenuButton {
+            height: 40px;
+            background-color: #999;
+        }
+
+        @media screen and (max-width: 760px) {
+            .dropdown {
+                display: block;
+            }
+        }
+
+        @media screen and (max-width:740px) {
+            .iframeFooter {
+                height: 545px;
+            }
+        }
+
+        @media screen and (max-width: 440px) {
+            .title {
+                padding: 0;
+                margin: 0 15px;
+            }
+
+            .dropdown {
+                right: 20px;
+            }
+
+            .main {
+                margin: 0 15px;
+            }
+
+            .main>img {
+                max-width: none !important;
+            }
+
+            .main>p {
+                word-break: break-all;
+            }
+
+            span {
+                font-size: 16px !important;
+            }
+        }
+
+        .dropdown-item {
+            color: #333;
+            font-size: 14px;
+            text-align: center;
+            padding: 5px 0;
+        }
+
+        .dropdown-item:hover {
+            color: #000;
+            background-color: #eee;
+        }
+
+        .active {
+            background-color: #eee;
+        }
+    </style>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <iframe style="margin-top: -5px;margin-bottom: -5px;" src="header.html" scrolling="no" frameborder="0"
+            height="60px" width="100%"></iframe>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-expanded="false">导航</button>
+            <div style="min-width: 100px;" class="dropdown-menu dropdown-menu-right"
+                aria-labelledby="dropdownMenuButton">
+                <a style="display: block;" class="dropdown-item" href="./index.html">首页</a>
+                <a style="display: block;" class="dropdown-item" href="./news.html">新闻</a>
+                <a style="display: block;" class="dropdown-item" href="./about.html">关于我们</a>
+            </div>
+        </div>
+        <!-- 标题 -->
+        <div class="title-container">
+            <div class="title">
+                <span class="vertical"></span>
+                <span style="font-size: 18px;font-weight: 600;margin-right: 10px;width: 90%;"></span>
+                <p class="time"></p>
+            </div>
+        </div>
+        <!-- 主界面 -->
+        <main class="main"></main>
+        <!-- 尾部 -->
+        <iframe class="iframeFooter" style="margin-top: 15px;margin-bottom: -5px;"
+            src="footer.html" scrolling="no" frameborder="0" height="363px" width="100%"></iframe>
+    </div>
+</body>
+
+<script>
+    function getDetail(newsId) {
+        let id = window.location.search.substr(1)
+        fetch(`https://www.mxnzp.com/api/news/details?newsId=${newsId}&app_id=qqothbeulyoiomlw&app_secret=SEVub0xLMWhobGVxUWp2S0p6TGpwUT09`)
+            .then(response => {
+                return response.json()
+            })
+            .then(json => {
+                console.log(json.data);
+                let data = json.data
+                if (!data) {
+                    $('.main').append(`<h1 style="color:red">新闻数据获取失败，请返回</h1><button onclick="window.history.back()">返回</button>`)
+                }
+                document.querySelector('.title>span:nth-of-type(2)').innerText = data.title
+                document.querySelector('.time').innerText = data.ptime
+                for (let i = 0; i < data.images.length; i++) {
+                    $('.main').append(`<img style="margin: 10px 0;height: auto;width: 100%;" src="${data.images[i].imgSrc}" />`)
+                }
+                $('.main').append(data.content)
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+    getDetail(window.location.search.substr(1))
+</script>
+
+</html>
