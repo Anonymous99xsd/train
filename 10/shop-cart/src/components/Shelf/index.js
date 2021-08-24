@@ -23,7 +23,7 @@ function Shelf(props) {
 
     // 点击排序
     const sortItem = (e) => {
-        console.log(e);
+        // console.log(e);
         let obj = JSON.parse(JSON.stringify(props.data))
         if (e.key === '0') {
             obj.sort((a, b) => a.id - b.id)
