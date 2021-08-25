@@ -94,62 +94,62 @@ export default function Battle() {
 
     return (
         <div style={{width:'80%', display:'flex', flexDirection:'column', alignItems:'center', margin:'0 auto'}}>
-        <h2>Instructions</h2>
-        <div style={{width:'80%', display:'flex', justifyContent:'space-between'}}>
-            <div>
-            <h3 style={{textAlign:'center'}}>Enter two Github users</h3>
-            <i style={{color:'orange', width:'200px', height:'200px', backgroundColor:'#eee', display:'flex', justifyContent:'center', alignItems:'center'}} className="fas fa-users fa-8x">
-                <img src="" alt="" />
-            </i>
-            </div>
-            <div>
-            <h3 style={{textAlign:'center'}}>Battle</h3>
-            <i style={{color:'#666', width:'200px', height:'200px', backgroundColor:'#eee', display:'flex', justifyContent:'center', alignItems:'center'}} className="fas fa-fighter-jet fa-8x">
-                <img src="" alt="" />
-            </i>
-            </div>
-            <div>
-            <h3 style={{textAlign:'center'}}>See the winner</h3>
-            <i style={{color:'yellow', width:'200px', height:'200px', backgroundColor:'#eee', display:'flex', justifyContent:'center', alignItems:'center'}} className="fas fa-trophy fa-8x">
-                <img src="" alt="" />
-            </i>
-            </div>
-        </div>
-        <h2 style={{marginTop:'100px'}}>Players</h2>
-        <form style={{width:'100%'}} onSubmit={formik.handleSubmit}>
-            <div style={{width:'100%', display:'flex', justifyContent:'space-around'}}>
-            <div>
-                <h3 style={{textAlign:'center'}}>Player One</h3>
-                <input onKeyDown={(e) => {clickHandle(e, 0)}} ref={userRef1} name="user1" type="text" defaultValue={formik.values.user1} onChange={formik.handleChange} />
-                <button onClick={(e) => {clickHandle(e, 0)}} style={{marginLeft:'20px', cursor:isDisable1 ? 'not-allowed' : 'pointer'}} disabled={isDisable1 ? 'disabled' : ''} type="submit">SUBMIT</button>
-            </div>
-            <div>
-                <h3 style={{textAlign:'center'}}>Player Two</h3>
-                <input onKeyDown={(e) => {clickHandle(e, 1)}} ref={userRef2} name="user2" type="text" defaultValue={formik.values.user2} onChange={formik.handleChange} />
-                <button onClick={(e) => {clickHandle(e, 1)}} style={{marginLeft:'20px', cursor:isDisable2 ? 'not-allowed' : 'pointer'}} disabled={isDisable2 ? 'disabled' : ''} type="submit">SUBMIT</button>
-            </div>
-            </div>
-        </form>
-        <div style={{width:'74%', position:'relative'}}>
-            {
-            isAvatar.map((v, i) => {
-                return (
-                <div key={i} style={{display:isAvatar[i] ? 'flex' : 'none', margin:'20px 0', position:'absolute', right:i === 1 ? '0' : '', alignItems:'center', fontSize:'28px', color:'#1890ff'}}>
-                    {
-                        name[i] && <><img style={{width:'64px', height:'64px', marginRight:'20px'}} src={img[i]} alt="" />
-                        <div>{name[i]}</div></> || <p style={{color: 'red', fontSize:'14px'}}>{error}</p>
-                    }
-                    <span onClick={() => {removeAvatar(i)}} style={{marginLeft:'15px',height:'36px',width:'36px',fontSize:'48px',display:'inline-block',borderRadius:'50%', color:'#fff',cursor:'pointer'}}>
-                    <i style={{fontSize:'36px', position:'absolute',color:'red'}} className="fas fa-times-circle"></i>
-                    </span>
+            <h2>Instructions</h2>
+            <div style={{width:'80%', display:'flex', justifyContent:'space-between'}}>
+                <div>
+                    <h3 style={{textAlign:'center'}}>Enter two Github users</h3>
+                    <i style={{color:'orange', width:'200px', height:'200px', backgroundColor:'#eee', display:'flex', justifyContent:'center', alignItems:'center'}} className="fas fa-users fa-8x">
+                        <img src="" alt="" />
+                    </i>
                 </div>
-                )
-            })
-            }
-        </div>
-        <button style={{display:isShow ? 'block' : 'none', marginTop:'100px', width:'100px', height:'40px'}}>
-            <Link style={{textDecoration:'none', color:'#333', padding:'12px 18px'}} to={`/battle/result?user1=${name[0]}&user2=${name[1]}`}>BATTLE</Link>
-        </button>
+                <div>
+                    <h3 style={{textAlign:'center'}}>Battle</h3>
+                    <i style={{color:'#666', width:'200px', height:'200px', backgroundColor:'#eee', display:'flex', justifyContent:'center', alignItems:'center'}} className="fas fa-fighter-jet fa-8x">
+                        <img src="" alt="" />
+                    </i>
+                </div>
+                <div>
+                    <h3 style={{textAlign:'center'}}>See the winner</h3>
+                    <i style={{color:'yellow', width:'200px', height:'200px', backgroundColor:'#eee', display:'flex', justifyContent:'center', alignItems:'center'}} className="fas fa-trophy fa-8x">
+                        <img src="" alt="" />
+                    </i>
+                </div>
+            </div>
+            <h2 style={{marginTop:'100px'}}>Players</h2>
+            <form style={{width:'100%'}} onSubmit={formik.handleSubmit}>
+                <div style={{width:'100%', display:'flex', justifyContent:'space-around'}}>
+                <div>
+                    <h3 style={{textAlign:'center'}}>Player One</h3>
+                    <input onKeyDown={(e) => {clickHandle(e, 0)}} ref={userRef1} name="user1" type="text" defaultValue={formik.values.user1} onChange={formik.handleChange} />
+                    <button onClick={(e) => {clickHandle(e, 0)}} style={{marginLeft:'20px', cursor:isDisable1 ? 'not-allowed' : 'pointer'}} disabled={isDisable1 ? 'disabled' : ''} type="submit">SUBMIT</button>
+                </div>
+                <div>
+                    <h3 style={{textAlign:'center'}}>Player Two</h3>
+                    <input onKeyDown={(e) => {clickHandle(e, 1)}} ref={userRef2} name="user2" type="text" defaultValue={formik.values.user2} onChange={formik.handleChange} />
+                    <button onClick={(e) => {clickHandle(e, 1)}} style={{marginLeft:'20px', cursor:isDisable2 ? 'not-allowed' : 'pointer'}} disabled={isDisable2 ? 'disabled' : ''} type="submit">SUBMIT</button>
+                </div>
+                </div>
+            </form>
+            <div style={{width:'74%', position:'relative'}}>
+                {
+                    isAvatar.map((v, i) => {
+                        return (
+                            <div key={i} style={{display:isAvatar[i] ? 'flex' : 'none', margin:'20px 0', position:'absolute', right:i === 1 ? '0' : '', alignItems:'center', fontSize:'28px', color:'#1890ff'}}>
+                                {
+                                    name[i] && <><img style={{width:'64px', height:'64px', marginRight:'20px'}} src={img[i]} alt="" />
+                                    <div>{name[i]}</div></> || <p style={{color: 'red', fontSize:'14px'}}>{error}</p>
+                                }
+                                <span onClick={() => {removeAvatar(i)}} style={{marginLeft:'15px',height:'36px',width:'36px',fontSize:'48px',display:'inline-block',borderRadius:'50%', color:'#fff',cursor:'pointer'}}>
+                                    <i style={{fontSize:'36px', position:'absolute',color:'red'}} className="fas fa-times-circle"></i>
+                                </span>
+                            </div>
+                        )
+                    })
+                }
+            </div>
+            <button style={{display:isShow ? 'block' : 'none', marginTop:'100px', width:'100px', height:'40px'}}>
+                <Link style={{textDecoration:'none', color:'#333', padding:'12px 18px'}} to={`/battle/result?user1=${name[0]}&user2=${name[1]}`}>BATTLE</Link>
+            </button>
         </div>
     )
 }
