@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import React, { useState, useRef } from 'react'
 import axios from 'axios'
 import { useFormik } from 'formik'
@@ -15,6 +16,10 @@ export default function Battle() {
     const userRef2 = useRef()
     const [isClick1, setIsClick1] = useState(false)
     const [isClick2, setIsClick2] = useState(false)
+    //测试 form验证
+    const formRule = ()=>{
+        document.querySelector("#i-submit").click()
+    }
     // 查询头像方法
     const getAvatar = (username, index) => {
         axios.get('https://api.github.com/users/' + username)
@@ -30,6 +35,7 @@ export default function Battle() {
                 let temp = isAvatar.slice()
                 temp[index] = true
                 setIsAvatar(temp)
+                formRule()
             })
             .catch(error => {
                 let temp = isAvatar.slice()
@@ -60,6 +66,9 @@ export default function Battle() {
         temp[index] = false
         setIsAvatar(temp)
         setIsShow(false)
+        let tempName = name.slice()
+        tempName[index] = false
+        setName(tempName)
         if (!index) {
             formik.values.user1 = ''
             userRef1.current.value = ''
@@ -78,7 +87,7 @@ export default function Battle() {
             user2: '',
         },
         onSubmit: () => {
-            if (isAvatar[0] || isAvatar[1]) {
+            if (isAvatar[0] && isAvatar[1]) {
                 setIsShow(true)
             }
         },
@@ -118,17 +127,20 @@ export default function Battle() {
             <h2 style={{marginTop:'100px'}}>Players</h2>
             <form style={{width:'100%'}} onSubmit={formik.handleSubmit}>
                 <div style={{width:'100%', display:'flex', justifyContent:'space-around'}}>
-                <div>
-                    <h3 style={{textAlign:'center'}}>Player One</h3>
-                    <input onKeyDown={(e) => {clickHandle(e, 0)}} ref={userRef1} name="user1" type="text" defaultValue={formik.values.user1} onChange={formik.handleChange} />
-                    <button onClick={(e) => {clickHandle(e, 0)}} style={{marginLeft:'20px', cursor:isDisable1 ? 'not-allowed' : 'pointer'}} disabled={isDisable1 ? 'disabled' : ''} type="submit">SUBMIT</button>
+                    <div>
+                        <h3 style={{textAlign:'center'}}>Player One</h3>
+                        <input onKeyDown={(e) => {clickHandle(e, 0)}} ref={userRef1} name="user1" type="text" defaultValue={formik.values.user1} onChange={formik.handleChange} />
+                        <button onClick={(e) => {clickHandle(e, 0)}} style={{marginLeft:'20px', cursor:isDisable1 ? 'not-allowed' : 'pointer'}} disabled={isDisable1 ? 'disabled' : ''}>SUBMIT</button>
+                    </div>
+                    <div>
+                        <h3 style={{textAlign:'center'}}>Player Two</h3>
+                        <input onKeyDown={(e) => {clickHandle(e, 1)}} ref={userRef2} name="user2" type="text" defaultValue={formik.values.user2} onChange={formik.handleChange} />
+                        <button onClick={(e) => {
+                            clickHandle(e, 1)
+                        }} style={{marginLeft:'20px', cursor:isDisable2 ? 'not-allowed' : 'pointer'}} disabled={isDisable2 ? 'disabled' : ''} >SUBMIT</button>
+                    </div>
                 </div>
-                <div>
-                    <h3 style={{textAlign:'center'}}>Player Two</h3>
-                    <input onKeyDown={(e) => {clickHandle(e, 1)}} ref={userRef2} name="user2" type="text" defaultValue={formik.values.user2} onChange={formik.handleChange} />
-                    <button onClick={(e) => {clickHandle(e, 1)}} style={{marginLeft:'20px', cursor:isDisable2 ? 'not-allowed' : 'pointer'}} disabled={isDisable2 ? 'disabled' : ''} type="submit">SUBMIT</button>
-                </div>
-                </div>
+                <button id="i-submit"type="submit" style={{ display: 'none' }}></button>
             </form>
             <div style={{width:'74%', position:'relative'}}>
                 {
